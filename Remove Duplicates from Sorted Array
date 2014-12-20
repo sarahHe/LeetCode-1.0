@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int removeDuplicates(int A[], int n) {
+        int cur = A[n-1], i = n -2;
+        while (i >= 0) {
+            if (cur == A[i]) {
+                int j = i;
+                while (j + 1 < n) {
+                    A[j] = A[j + 1];
+                    j++;
+                }
+                n--;
+            }
+            else {
+                cur = A[i];
+            }   
+            i--;
+        }
+        return n;
+    }
+};
