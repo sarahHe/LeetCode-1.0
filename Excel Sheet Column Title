@@ -1,0 +1,23 @@
+class Solution {
+public:
+    string convertToTitle(int n) {
+        string res;
+        if (n < 26)
+            return res.insert(0, 1, 'A' + n % 27  - 1);
+        while (n / 26) {
+            if (n % 26 == 0) {
+                res.insert(0, 1, 'Z');
+                n = (n - 26) / 26;
+            }
+            else {
+                res.insert(0, 1, 'A' + n % 26  - 1);
+                n = (n - n % 26) / 26;
+            }
+        }
+        if (n > 1 && res[0] == 'Z')
+            res.insert(0, 1, 'A' + n - 2);
+        else if (n || res[0] != 'Z')
+            res.insert(0, 1, 'A' + n - 1);
+        return res;
+    }
+};
