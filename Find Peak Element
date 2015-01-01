@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int findPeakElement(const vector<int> &num) {
+        if (num.size() < 2)    return 0;
+        
+        int low = 0, high = num.size() - 1;
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            if (mid == num.size() - 1) 
+                return num[mid] > num[mid - 1] ? mid : mid - 1;
+            else if (mid == 0)
+                return num[mid] > num[mid + 1] ? mid : mid + 1;
+            else {    
+                if (num[mid] > num[mid + 1] && num[mid] > num[mid - 1])
+                    return mid;
+                else if (num[mid] < num[mid + 1]) 
+                    low = mid + 1;
+                else
+                    high = mid - 1;
+            }
+        }
+    }
+};
