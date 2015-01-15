@@ -1,3 +1,5 @@
 myLeetCode1.0
 =============
-Hope I could finish all the problems.
+Practice makes perfect
+
+1 - 5, low - high
