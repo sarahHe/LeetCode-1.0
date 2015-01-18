@@ -11,6 +11,12 @@ Remove all the chars before the first apperance of the repeated one
 and update the repeated on in the hash map
 
 Notice: If erase something unexists, error would arise.
+
+better solution:
+不需要存了又erase
+对于s[i]：
+1.s[i]没有在当前子串中出现过，那么子串的长度加1；
+2.s[i]在当前子串中出现过，出现位置的下标为j，那么新子串的起始位置必须大于j，为了使新子串尽可能的长，所以起始位置选为j+1。
 */
 class Solution {
 public:
