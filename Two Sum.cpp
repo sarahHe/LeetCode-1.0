@@ -27,11 +27,14 @@ public:
         unordered_map<int, int> table;
         for (int i = 0; i < numbers.size(); i++) {
             if (table[target - numbers[i]]) {
-                res.push_back(min(i + 1,//注意这里的numbers[i]还没有存进去，
-                                        //所以用i+1来与存进去的那个来比。
-                                  table[target - numbers[i]]));
-                res.push_back(max(i + 1,
-                                  table[target - numbers[i]]));
+                // res.push_back(min(i + 1,//注意这里的numbers[i]还没有存进去，
+                //                         //所以用i+1来与存进去的那个来比。
+                //                   table[target - numbers[i]]));
+                // res.push_back(max(i + 1,
+                //                   table[target - numbers[i]]));
+                //因为是遍历一遍，所以i+1 肯定比table[target - numbers[i]]大
+                res.push_back(table[target - numbers[i]]);
+                res.push_back(i+1);
                 break;
             }
             else
