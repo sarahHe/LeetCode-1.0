@@ -1,3 +1,7 @@
+// Given a list of non negative integers, arrange them such that they form the largest number.
+// For example, given [3, 30, 34, 5, 9], the largest formed number is 9534330.
+// Note: The result may be very large, so you need to return a string instead of an integer.
+
 // 关键是确定每个数在最后结果中的先后位置，比较直观的是个位数
 // 越大的越靠前，如例子中9在5, 4, 3之前；
 // 个位相同的再看十位，如例子中34应当在30之前；
