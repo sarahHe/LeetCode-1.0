@@ -1,4 +1,5 @@
 // since it's not perfect trees, you have to finish level by level
+// The solution is not the best best one
 /**
  * Definition for binary tree with next pointer.
  * struct TreeLinkNode {
@@ -22,11 +23,13 @@ public:
     }
 
     void connect(TreeLinkNode *root) {
-        if (!root || (!root->left && !root->right))  
+        if (!root)
             return;
         
         TreeLinkNode *parent = root, *node = getFirstNode(root);
-        while (parent) {
+        while (parent && node) {
+            while (!parent->left && !parent->right)
+                parent = parent->next;
             if (parent->right && parent->right != node) {
                 node->next = parent->right;
                 node = node->next;
@@ -39,3 +42,32 @@ public:
         connect(getFirstNode(root));
     }
 };
+
+// This is the best one
+void connect(TreeLinkNode *root) {
+    // Start typing your C/C++ solution below
+    // DO NOT write int main() function
+    if (root == NULL)
+        return;
+    TreeLinkNode *p = root;
+    TreeLinkNode *cntNode = NULL;
+    TreeLinkNode *nxtLevel = NULL;
+    while (p) {
+        if (p->left) {
+            if (cntNode)
+                cntNode->next = p->left;
+            cntNode = p->left;
+            if (nxtLevel == NULL)
+                nxtLevel = cntNode;
+        }
+        if (p->right) {
+            if (cntNode)
+                cntNode->next = p->right;
+            cntNode = p->right;
+            if (nxtLevel == NULL)
+                nxtLevel = cntNode;
+        }
+        p = p->next;
+    }
+    connect(nxtLevel);
+}
