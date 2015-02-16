@@ -10,38 +10,20 @@
 class Solution {
 public:
     vector<int> preorderTraversal(TreeNode *root) {
-        vector<int> result;
-        if (root == NULL) return result;
-        
-        result.push_back(root->val);
-        stack<TreeNode *> path;
-        set<TreeNode *> p2;
-        path.push(root);
-        p2.insert(root);
+        vector<int> res;
+        if (root == NULL)   return res;
 
-        while (true) {
-            if (root->left && p2.find(root->left) == p2.end()) {
-                root = root->left;
-                result.push_back(root->val);
-                path.push(root);
-                p2.insert(root);
-            }
-            else if (root->right && p2.find(root->right) == p2.end()) {
-                root = root->right;
-                result.push_back(root->val);
-                    path.push(root);
-                    p2.insert(root);
-            }
-            else {
-                if (!path.empty()) {
-                    root = path.top();
-                    path.pop();
-                }
-                else
-                    break;
-            }
+        stack<TreeNode*> s;
+        s.push(root);
+        while (!s.empty()) {
+            TreeNode *cur = s.top();
+            s.pop();
+            res.push_back(cur->val);
+            if (cur->right)
+                s.push(cur->right);
+            if (cur->left)
+                s.push(cur->left);
         }
-
-        return result;
+        return res;
     }
 };
