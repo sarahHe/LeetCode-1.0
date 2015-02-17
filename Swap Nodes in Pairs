@@ -33,3 +33,24 @@ public:
         return head;
     }
 };
+
+2015.2.16
+ListNode *swapPairs(ListNode *head) {
+    if (!head || !head->next)
+        return head;
+    
+    ListNode *p = head, *q = head->next, *dummy = new ListNode(-1);
+    head = q;
+    while (p && q) {
+        p->next = q->next;
+        q->next = p;
+        dummy->next = q;
+        dummy = p;
+        p = p->next;
+        if (p)
+            q = p->next;
+        else
+            return head;
+    }
+    return head;
+}
