@@ -22,3 +22,24 @@ public:
         return res;
     }
 };
+
+2015.2.16
+3ms
+void generate(int n, int l, int r, string tmp, vector<string> &res) {
+    if (r == n)
+        res.push_back(tmp);
+    
+    if (r == l && l < n)
+        generate(n, l+1, r, tmp+"(", res);
+    else if (r < l) {
+        if (l < n)
+            generate(n, l+1, r, tmp+"(", res);
+        generate(n, l, r+1, tmp+")", res);
+    }
+}
+
+vector<string> generateParenthesis(int n) {
+    vector<string> res;
+    generate(n, 0, 0, "", res);
+    return res;
+}
