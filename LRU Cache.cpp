@@ -16,52 +16,53 @@
 // 其实在STL中的list就是一个双向链表，如果希望代码简短点，可以用list来实现：
 
 //be careful about the type
+
 struct Node {
     int key;
     int value;
     Node(int k, int v):key(k),value(v){};
 };
-    
+
 class LRUCache{
 private:
     int maxSize;
-    list<Node> cacheList;
-    map<int, list<Node>::iterator > mp;
-    
+    map<int, list<Node>::iterator> mp;
+    list<Node> theList;
 public:
     LRUCache(int capacity) {
         maxSize = capacity;
     }
     
     int get(int key) {
-        if (mp.find(key) == mp.end())
-            return -1;
-        else {
-            list<Node>::iterator it = mp[key];
-            Node newNode(key, it->value);
-            cacheList.erase(it);
-            cacheList.push_front(newNode);
-            mp[key] = cacheList.begin();
-            return it->value;
+        if (mp.find(key) != mp.end()) {
+            theList.erase(mp[key]);
+            theList.push_front(*mp[key]);
+            mp[key] = theList.begin();
+            return mp[key]->value;
         }
+        else
+            return -1;
+        
     }
     
     void set(int key, int value) {
-        map<int, list<Node>::iterator >::iterator it = mp.find(key);
-        if (it == mp.end()) {
-            if (cacheList.size() == maxSize) {
-                mp.erase(cacheList.back().key);
-                cacheList.pop_back();
+        Node newNode(key, value);
+        if (mp.find(key) == mp.end()) {//doesn't find insert
+            if (theList.size() == maxSize) { //full
+                mp.erase(theList.back().key);
+                theList.pop_back();
+                theList.push_front(newNode);
+                mp[key] = theList.begin();
             }
-            Node newNode(key, value);
-            cacheList.push_front(newNode);
-            mp[key] = cacheList.begin();
+            else {
+                theList.push_front(newNode);
+                mp[key] = theList.begin();
+            }
         }
-        else {
-            Node newNode(key, value);
-            cacheList.erase(mp[key]);
-            cacheList.push_front(newNode);
-            mp[key] = cacheList.begin();
+        else { //found so set
+            theList.erase(mp[key]);
+            theList.push_front(newNode);
+            mp[key] = theList.begin();
         }
     }
 };
