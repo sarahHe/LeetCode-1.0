@@ -9,27 +9,18 @@
  */
 class Solution {
 public:
-    void preOrder(TreeNode *root, stack<TreeNode*> &s) {
-        if (!root)  return;
-        
-        s.push(root);
-        preOrder(root->left, s);
-        preOrder(root->right, s);
-    }
-    
     void flatten(TreeNode *root) {
-        if (!root)  return;
+        if (root == NULL)
+            return;
         
-        stack<TreeNode*> s;
-        preOrder(root, s);
-        root = s.top();
-        s.pop();
-        while (!s.empty()) {
-            TreeNode *node = root;
-            root = s.top();
-            root->right = node;
-            root->left = NULL;
-            s.pop();
-        }
+        TreeNode *pLeft = root->left,
+                 *pRight = root->right;
+        flatten(pLeft);
+        flatten(pRight);
+        root->left = NULL;
+        root->right = pLeft;
+        while (root->right != NULL) //To link right subTree to the rightmost of LeftSubtree
+            root = root->right;
+        root->right = pRight;
     }
 };
