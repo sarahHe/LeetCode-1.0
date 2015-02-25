@@ -7,29 +7,20 @@ class Solution {
 // 算法具体执行的步骤为：
 //     若heightStack为空或者当前高度大于heightStack栈顶，则当前高度和当前下标分别入站（下面有一个解法可以只用一个栈即可，用栈来保存下标，而高度由下标很容易得到）。所以heightStack记录了一个连续递增的序列。
 //     若当前高度小于heightStack栈顶，heightStack和indexStack出栈，直到当前高度大于等于heightStack栈顶。出栈时，同时计算区间所形成的最大面积。注意计算完之后，当前值入栈的时候，其对应的下标应该为最后一个从indexStack出栈的下标。比如height[2]入栈时，其对应下标入栈应该为1，而不是其本身的下标2。如果将其本身下标2入栈，则计算绿色区域的最大面积时，会忽略掉红色区域。
+class Solution {
 public:
     int largestRectangleArea(vector<int> &height) {
-        if (height.size() == 0)
-            return 0;
-            
-        int area = height[0];
-        vector<int> tmp = height;// Important
-        tmp.push_back(0);  // Important for the last one
-        stack<int> s; //store idx
-        for (int i = 0; i < tmp.size(); i++) {
-            if (s.empty() ||
-                (!s.empty() && tmp[s.top()] <= tmp[i]))
-                s.push(i);
-            else {
-                while (!s.empty() && (tmp[s.top()] > tmp[i])) {
-                    int idx = s.top();
-                    s.pop(); //important
-                    int width = s.empty() ? i : i - s.top() - 1; 
-                    // you can't gaurantee s.top() is 0 or a certain number
-                    area = max(area, width * tmp[idx]);
-                }
-                s.push(i);
+        stack<int> s; // an ascending stack
+        height.push_back(0); // important
+        int area = 0;
+        for (int i = 0; i < height.size(); i++) {
+            while (!s.empty() && height[i] < height[s.top()]) {
+                int cur = s.top();
+                s.pop();
+                int width = s.empty() ? i : i - s.top() - 1;
+                area = max(area, width * height[cur]);
             }
+            s.push(i);
         }
         return area;
     }
