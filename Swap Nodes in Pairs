@@ -54,3 +54,16 @@ ListNode *swapPairs(ListNode *head) {
     }
     return head;
 }
+
+
+2015.2.25
+ListNode *swapPairs(ListNode *head) {
+        if (!head || !head->next)
+            return head;
+        
+        ListNode *newHead = head->next;
+        ListNode *newPair = head->next->next;
+        head->next->next = head;
+        head->next = swapPairs(newPair);
+        return newHead;
+    }
