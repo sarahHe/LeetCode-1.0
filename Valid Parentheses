@@ -29,3 +29,29 @@ public:
         return true;
     }
 };
+
+
+2015.2.25 update:
+class Solution {
+public:
+    bool isValid(string s) {
+        if (s.length() % 2 == 1)
+            return false;
+        stack<char> stk;
+        unordered_map<char, char> mp;
+        mp['('] = ')'; mp['{'] = '}'; mp['['] = ']';
+        for (int i = 0; i < s.length(); i++) {
+            if (mp[s[i]] != '\0')
+                stk.push(s[i]);
+            else {
+                if (stk.empty())
+                    return false;
+                else if (mp[stk.top()] != s[i])
+                        return false;
+                else 
+                    stk.pop();
+            }
+        }
+        return stk.empty();
+    }
+};
