@@ -1,45 +1,19 @@
 class Solution {
 public:
-    void helper(vector<string> &res, string tmp, int left, int right, int n) {
-        if (left < right || left > n)
-            return;
-        
-        if (left == n && right == n)
+    void generator(int left, int right, int n, string tmp, vector<string> &res) {
+        if (left + right == 2*n)
             res.push_back(tmp);
-        else {
-            if (left < n)
-                helper(res, tmp + "(", left + 1, right, n);
-            if (right < n)
-                helper(res, tmp + ")", left, right + 1, n);
-        }
+            
+        if (left < n)
+            generator(left+1, right, n, tmp+"(", res);
+        if (right < left)
+            generator(left, right+1, n, tmp+")", res);
     }
 
     vector<string> generateParenthesis(int n) {
         vector<string> res;
-        if (!n) return res;
-        
-        helper(res, "", 0, 0, n);
+        if (n > 0)
+            generator(0, 0, n, "", res);
         return res;
     }
 };
-
-2015.2.16
-3ms
-void generate(int n, int l, int r, string tmp, vector<string> &res) {
-    if (r == n)
-        res.push_back(tmp);
-    
-    if (r == l && l < n)
-        generate(n, l+1, r, tmp+"(", res);
-    else if (r < l) {
-        if (l < n)
-            generate(n, l+1, r, tmp+"(", res);
-        generate(n, l, r+1, tmp+")", res);
-    }
-}
-
-vector<string> generateParenthesis(int n) {
-    vector<string> res;
-    generate(n, 0, 0, "", res);
-    return res;
-}
