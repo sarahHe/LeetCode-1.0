@@ -20,28 +20,28 @@
 class Solution {
 public:
     ListNode *reverseKGroup(ListNode *head, int k) {
-        if (!head)  return head;
+        if (!head || k == 1)
+            return head;
         
-        ListNode *t = head;
         int i = 0;
-        while (t && i < k) {
+        ListNode *m = head;
+        while (m && i < k) {
+            m = m->next;
             i++;
-            t = t->next;
         }
         if (i < k)
             return head;
-            
+
         ListNode *p = head, *q = head->next;
-        while(k > 1 && q) {
-            t = head;
-            head = q;
+        while (k>1 && q) {
             p->next = q->next;
-            q->next = t;
+            q->next = head;
+            head = q;
             q = p->next;
             k--;
         }
         if (q)
-            p->next = reverseKGroup(q, i);
+            p->next = reverseKGroup(q, i); // important
         return head;
     }
 };
