@@ -1,30 +1,25 @@
+//classical DP
 class Solution {
 public:
-    void helper(string digits, string tmp, unordered_map<char, vector<char>>&maps, vector<string> &res, int n) {
-        if (tmp.length() == n) {
+    void generate(string digits, vector<string> trans, int pos, string tmp, vector<string> &res) {
+        if (pos == digits.length()) {
             res.push_back(tmp);
             return;
         }
-        
-        for (int i = 0; i < digits.length(); i++) {
-            string digits_copy = digits;
-            for (int j = i; j < maps[digits[i]].size(); j++) {
-                helper(digits_copy.substr(i+1), tmp + maps[digits[i]][j], maps, res, n);
-            }
+
+        int dg = digits[pos] - '0';
+        for (int j = 0; j < trans[dg].length(); j++) {
+            generate(digits, trans, pos+1, tmp+trans[dg][j], res);
         }
+
     }
-    
+
     vector<string> letterCombinations(string digits) {
-        unordered_map<char, vector<char>> maps =
-        {{'2', {'a','b','c'}}, {'3', {'d','e','f'}}, {'4', {'g','h','i'}},
-            {'5', {'j','k','l'}}, {'6', {'m','n','o'}},
-            {'7', {'p','q','r','s'}}, {'8',{'t','u','v'}},
-            {'9',{'w','x','y','z'}}};
-        
+        vector<string> trans = {"", " ", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};  \
         vector<string> res;
-        helper(digits, "", maps, res, digits.length());
-        for (auto i : res)
-            cout << i << endl;
+        if (digits == "")
+            return res;
+        generate(digits, trans, 0,"", res);
         return res;
     }
 };
