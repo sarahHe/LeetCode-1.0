@@ -31,3 +31,31 @@ public:
         return -1;
     }
 };
+
+
+2015.2.28 recursion:
+class Solution {
+public:
+   int hayStackHelper(char *haystack, char *needle, int start, int pos) {
+        if (*(needle + pos) == '\0')
+            return start;
+        else if (*(haystack + start + pos) == '\0') {
+            return - 1;
+        }
+        
+        if (*(haystack + start + pos) != *(needle + pos)) {
+            start++;
+            pos = 0;
+        }
+        else
+            pos++;
+        return hayStackHelper(haystack , needle, start, pos);
+    }
+    
+    int strStr(char *haystack, char *needle) {
+        int idx = 0, pos = 0;
+        if (*needle == '\0')
+            return 0;
+        return hayStackHelper(haystack, needle, idx, pos);
+    }
+};
