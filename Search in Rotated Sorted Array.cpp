@@ -38,3 +38,30 @@ public:
         return -1;
     }
 };
+
+
+2015.2.18
+class Solution {
+public:
+    int search(int A[], int n, int target) {
+        int i = 0, j = n - 1;
+        while (i <= j) {
+            int mid = (j - i)/2 + i;
+            if (A[mid] == target)   return mid;
+            
+            if (A[mid] >= A[i]) { // equation is important
+                if (A[i] <= target && target < A[mid])
+                    j = mid - 1;
+                else
+                    i = mid + 1;
+            }
+            else {
+               if (A[mid] < target && target <= A[j])
+                    i = mid + 1;
+                else
+                    j = mid - 1; 
+            }
+        }
+        return -1;
+    }
+};
