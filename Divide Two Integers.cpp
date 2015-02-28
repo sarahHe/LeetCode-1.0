@@ -19,17 +19,13 @@ public:
             d1 -= tmp;
         }
         // more careful about INT_MIN, INT_MAX
-        if (dividend < 0 ^ divisor < 0) {
-            if (res == INT_MIN)
-                return res;
-            else
+        if (dividend < 0 ^ divisor < 0) 
                 return -res;
-        }
         else {
             if (-res == INT_MIN)
                 return INT_MAX;
-            else
-                return res;    
+            else 
+                return res;
         }
             
     }
