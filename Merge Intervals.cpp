@@ -14,35 +14,31 @@
  *     Interval(int s, int e) : start(s), end(e) {}
  * };
  */
- bool comp (const Interval &a, const Interval &b) {
-     if (a.start == b.start)
-        return a.end < b.end;
-        
-     return a.start < b.start;
- }
- 
+bool cmp(Interval i1, Interval i2) {
+    if (i1.start == i2.start)
+        return i1.end < i2.end;
+    return i1.start < i2.start;
+}
+
 class Solution {
 public:
     vector<Interval> merge(vector<Interval> &intervals) {
+        vector<Interval>    res;
         if (intervals.size() < 2)
             return intervals;
-        
-        sort(intervals.begin(), intervals.end(), comp);
-        vector<Interval> res;
-        int i = 0;
-        for(; i<intervals.size()-1; i++) {
+        sort(intervals.begin(), intervals.end(), cmp);
+        int i =  0;
+        while (i < intervals.size()) {
             int start = intervals[i].start,
-            end = intervals[i].end,
-            cur = i;
-            while (i<intervals.size()-1 && end >= intervals[i+1].start) {
-                end = max(end, intervals[i+1].end);
+                end = intervals[i].end;
+            while (i < intervals.size() && end >= intervals[i].start) {
+                end = max(end, intervals[i].end); // must inside the while loop
                 i++;
             }
+            
             Interval newInterval(start, end);
             res.push_back(newInterval);
         }
-        if (i == intervals.size()-1)
-            res.push_back(intervals[i]);
         return res;
     }
 };
