@@ -6,7 +6,7 @@ public:
         
         int col_low = 0, col_high = matrix[0].size() - 1, 
             row_low = 0, row_high = matrix.size() - 1;
-        while (col_low < col_high && row_low < row_high) {
+        while (col_low < col_high && row_low < row_high) { // two conditions are the must
             for (int i = col_low; i < col_high; i++)
                 res.push_back(matrix[row_low][i]);
             
