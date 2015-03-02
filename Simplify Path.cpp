@@ -23,85 +23,30 @@
 class Solution {
 public:
     string simplifyPath(string path) {
-        if (path == "")
-            return path;
-        
-        stack<string> s;
-        string res = "", tmp = "/";
-        for (int i = 1; i < (int)path.size(); i++) {
-            if (path[i] == '/') {
-                if (tmp == "/..") {
-                    tmp = "/";
-                    if (!s.empty())
-                        s.pop();
-                }
-                else if (tmp == "/")
-                    ;
-                else if (tmp == "/.") {
-                    tmp = "/";
-                }
-                else {
-                    s.push(tmp);
-                    tmp = "/";
-                }
-        
-            }
-            else
-                tmp += path[i];
+        int i = 0;
+        vector<string> s;
+        while (i < path.length()) {
+            while (i < path.length() && path[i] == '/')
+                i++; //begining '/'
+            if (i == path.length())
+                break;
             
-        }
-        if (tmp == "/.." || tmp == "/.") {
-            if (s.empty())
-                s.push("/");
-            else if (tmp == "/.."){
-                s.pop();
-                if (s.empty())
-                    s.push("/");
+            int start = i;
+            while (i < path.length() && path[i] != '/')
+                i++; 
+                
+            string cur = path.substr(start, i - start);
+            if (cur == "..") {
+                if (!s.empty())
+                    s.pop_back();
             }
+            else if (cur != ".")
+                s.push_back(cur);
         }
-        else if (s.empty() || tmp != "/")
-            s.push(tmp);
-        while (!s.empty()) {
-            res = s.top() + res;
-            s.pop();
-        }
+        if (s.size() == 0)  return "/";
+        string res = "";
+        for (int i = 0; i < s.size(); i++)
+            res += '/' + s[i];
         return res;
     }
 };
-
-
-// another solution:
-// string simplifyPath(string path) {
-//     // Start typing your C/C++ solution below
-//     // DO NOT write int main() function
-//     vector<string> helper;
-//     string tmp, ans = "";
-//     int plen = path.length();
-//     int st_pos = 0, end_pos;
-//     while (st_pos < plen) {
-//         while (st_pos < plen && path[st_pos] == '/') {
-//             st_pos++;
-//         }
-//         end_pos = st_pos + 1;
-//         while (end_pos < plen && path[end_pos] != '/') {
-//             end_pos++;
-//         }
-//         tmp = path.substr(st_pos, end_pos - st_pos);
-//         if (tmp == "..") {
-//             if (helper.size() > 0) {
-//                 helper.pop_back();
-//             }
-//         } else if (tmp != "." && tmp.length() > 0) {
-//             helper.push_back(tmp);
-//         }
-//         st_pos = end_pos + 1;
-//     }
-//     for (int i = 0; i < helper.size(); i++) {
-//         ans += '/';
-//         ans += helper[i];
-//     }
-//     if (ans.length() == 0) {
-//         return "/";
-//     }
-//     return ans;
-// }
