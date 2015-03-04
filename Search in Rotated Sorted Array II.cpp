@@ -6,46 +6,29 @@ Write a function to determine if a given target is in the array.
 
 Deal with duplicates: some while loop
 */
+// 较上个题只需少量改动，但是复杂度已经是O(N)了，其实直接用线性搜索
 class Solution {
 public:
     bool search(int A[], int n, int target) {
-        int i = 0, j = n - 1;
-        while (i <= j) {///////注意这里的边界
-            int mid = i + (j-i)/2;
-            if (A[mid] > target) {
-                if (A[i] > target) {
-                    i = i + 1;// 不能简单地只用i = mid + 1. 如果target是最小的那个数，就会找不到了
-                    while (i < j && A[i+1] == A[i])
-                        i++;
-                }
-                else if (A[i] < target) {
-                    j = mid - 1;
-                    while (i < j && A[j-1] == A[j])
-                        j--;
-                }
-                else
-                    return true;
-            }
-            else if (A[mid] < target) {
-                if (A[j] > target) {
-                    i = mid + 1;
-                    j = j - 1;
-                    while (i < j && A[i+1] == A[i])
-                        i++;
-                    while (i < j && A[j-1] == A[j])
-                        j--;
-                }
-                else if (A[j] < target) {
-                    j = j - 1;
-                    while (i < j && A[j-1] == A[j])
-                        j--;
-                }
-                else
-                    return true;
-            }
-            else
+        int low = 0, high = n - 1;
+        while (low <= high) {
+            int mid = low + (high - low)/2;
+            if (A[mid] == target)
                 return true;
-            
+            else if (A[mid] < A[high]) { //pay attention to the condition
+                if (A[mid] < target && target <= A[high]) //pay attention to the =
+                    low = mid + 1;
+                else
+                    high = mid - 1;
+            }
+            else if (A[mid] > A[high]){ 
+                if (A[mid] > target && target >= A[low]) // pay attention to the second comparision
+                    high = mid - 1;
+                else
+                    low = mid + 1;
+            }
+            else  //if (A[mid] == A[high])  pay attention to this condition
+                high--;
         }
         return false;
     }
