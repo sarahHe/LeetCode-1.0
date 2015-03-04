@@ -5,29 +5,25 @@ Note:
 Elements in a subset must be in non-descending order.
 The solution set must not contain duplicate subsets.
 
-这个思路略有一点动态规划的思想。有用DFS的方法
-*/
+// 和Subsets I的唯一区别就是添加了两行去重的代码。
 class Solution {
 public:
-    vector<vector<int> > subsetsWithDup(vector<int> &S) {
-        vector<vector<int>> res;
-        if (S.empty()) return res;
-        
-        sort(S.begin(), S.end());
-        vector<int> tmp;
+    void generate(vector<int> &S, int pos, vector<int> &tmp, vector<vector<int> > &res) {
         res.push_back(tmp);
-        set<vector<int>> unique = {tmp};
-        for (int i = 0; i < S.size(); i++) {
-            int len = res.size();
-            for (int j = 0; j < len; j++) {
-                tmp = res[j];
-                tmp.push_back(S[i]);
-                if (unique.find(tmp) == unique.end()) {
-                    res.push_back(tmp);
-                    unique.insert(tmp);
-                }
-            }
+        for (int i = pos; i < S.size(); i++) {
+            if (i > pos && S[i] == S[i-1])
+                continue;
+            tmp.push_back(S[i]);
+            generate(S, i+1, tmp, res); // i+1
+            tmp.pop_back();
         }
+    }
+
+    vector<vector<int> > subsetsWithDup(vector<int> &S) {
+        vector<vector<int> > res;
+        vector<int> tmp;
+        sort(S.begin(), S.end());
+        generate(S, 0, tmp, res);
         return res;
     }
 };
