@@ -1,3 +1,4 @@
+// Given a binary tree, return the zigzag level order traversal of its nodes' values. (ie, from left to right, then right to left for the next level and alternate between).
 /**
  * Definition for binary tree
  * struct TreeNode {
@@ -10,44 +11,33 @@
 class Solution {
 public:
     vector<vector<int> > zigzagLevelOrder(TreeNode *root) {
-        vector<vector<int> > res;
-        if (root == NULL)   return  res;
+        vector<vector<int> >    res;
+        if (!root)  return res;   
         
-        deque<TreeNode*>   level;
-        level.push_back(root);
-        vector<int> value;
-        value.push_back(root->val);
-        res.push_back(value);
-        while (!level.empty()) {
-            value.clear();
-            deque<TreeNode*> tmp;
-            while (!level.empty()) {
-                if (res.size() % 2) {
-                    if (level.back()->right) {
-                        tmp.push_back(level.back()->right);
-                        value.push_back(level.back()->right->val);
-                    }
-                    if (level.back()->left) {
-                        tmp.push_back(level.back()->left);
-                        value.push_back(level.back()->left->val);
-                    }
-                    
+        vector<TreeNode*> next_level_node;
+        next_level_node.push_back(root);
+        bool odd = false;
+        while (!next_level_node.empty()) {
+            vector<TreeNode*> tmp;
+            vector<int> next_level_value;
+            for (int i = next_level_node.size() - 1, j = 0; i >= 0, j < next_level_node.size(); i--, j++) {
+                next_level_value.push_back(next_level_node[j]->val); //value is always from left to right
+                if (odd) { // node will be stored in the correct order
+                    if (next_level_node[i]->left) //when read from previos line, always start from right
+                        tmp.push_back(next_level_node[i]->left);
+                    if (next_level_node[i]->right)
+                        tmp.push_back(next_level_node[i]->right);
                 }
                 else {
-                    if (level.back()->left) {
-                        tmp.push_back(level.back()->left);
-                        value.push_back(level.back()->left->val);
-                    }
-                    if (level.back()->right) {
-                        tmp.push_back(level.back()->right);
-                        value.push_back(level.back()->right->val);
-                        }
+                    if (next_level_node[i]->right)
+                        tmp.push_back(next_level_node[i]->right);
+                    if (next_level_node[i]->left)
+                        tmp.push_back(next_level_node[i]->left);
                 }
-                level.pop_back();
             }
-            level = tmp;
-            if (!tmp.empty())
-                res.push_back(value);
+            odd = !odd;
+            res.push_back(next_level_value);
+            next_level_node = tmp;
         }
         return res;
     }
