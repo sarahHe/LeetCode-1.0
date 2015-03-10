@@ -8,16 +8,16 @@
 // 思路：
 // 如果我们用 i 表示当前字符串 A 的下标，j 表示当前字符串 B 的下标。 
 // 如果我们用d[i, j] 来表示A[1, ... , i] B[1, ... , j] 之间的最少编辑操作数。那么我们会有以下发现：
-// 1. d[0, j] = j;
-// 2. d[i, 0] = i;
-// 3. d[i, j] = d[i-1, j - 1] if A[i] == B[j]
-// 4. d[i, j] = min(d[i-1, j - 1], d[i, j - 1], d[i-1, j]) + 1  if A[i] != B[j]
+// i for word1, j for word2
+// insert a character: dp[i][j] = dp[i][j-1] + 1
+// delete a character: dp[i][j] = dp[i-1][j] + 1
+// replace a character: dp[i][j] = dp[i-1][j-1] + 1
 
 class Solution {
 public:
     int minDistance(string word1, string word2) {
         vector<vector<int> > dp(word1.size()+1, vector<int> (word2.size()+1, 0));
-        for (int i = 0; i <= word1.size(); i++)
+        for (int i = 0; i <= word1.size(); i++) // <=
             dp[i][0] = i; //pay attention
         for (int i = 0; i <= word2.size(); i++)
             dp[0][i] = i; // pay attention
