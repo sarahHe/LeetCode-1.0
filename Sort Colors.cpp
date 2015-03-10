@@ -5,7 +5,7 @@ class Solution {
 public:
     void sortColors(int A[], int n) {
         int red = 0, blue = n -1, i = 0;
-        while (i < n) {
+        while (i < n) { // the least condition
             if (A[i] == 0 && i > red) // i > red is a must
                 swap(A[red++], A[i]);
             else if (A[i] == 2 && i < blue) // i < blue is a must
