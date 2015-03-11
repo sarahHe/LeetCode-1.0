@@ -58,3 +58,64 @@ public:
         return false;
     }
 };
+
+
+class Solution {
+public:
+    bool find(vector<vector<char> > &board, string word, int row, int col, int pos) {
+        if (pos == word.length())   return true;
+        
+        if (row > 0 && board[row-1][col] == word[pos]) {
+            board[row-1][col] = '#';
+            if (find(board, word, row - 1, col, pos+1)) {
+                board[row-1][col] = word[pos];
+                return true;
+            }
+            board[row-1][col] = word[pos];
+        }
+        if (row < board.size() - 1 && board[row+1][col] == word[pos]) {
+            board[row+1][col] = '#';
+            if (find(board, word, row + 1, col, pos+1)) {
+                board[row+1][col] = word[pos];
+                return true;
+            }
+            board[row+1][col] = word[pos];
+        }
+        if (col > 0 && board[row][col-1] == word[pos]) {
+            board[row][col - 1] = '#';
+            if (find(board, word, row, col - 1, pos + 1)) {
+                board[row][col - 1] = word[pos];
+                return true;
+            }
+            board[row][col - 1] = word[pos];
+        }
+        if (col < board[0].size() - 1 && board[row][col + 1] == word[pos]) {
+            board[row][col+1] = '#';
+            if (find(board, word, row, col+1, pos+1)) {
+                board[row][col+1] = word[pos];
+                return true;
+            }
+            board[row][col+1] = word[pos];
+        }
+        return false;
+    }
+
+    bool exist(vector<vector<char> > &board, string word) {
+        if (board.size() == 0 || board[0].size() == 0)
+            return false;
+        if (word == "") return true;
+        
+        for (int i = 0; i < board.size(); i++) {
+            for (int j = 0; j < board[0].size(); j++) {
+                if (board[i][j] != word[0])
+                    continue;
+                
+                board[i][j] = '#';
+                if (find(board, word, i, j, 1)) 
+                    return true;
+                board[i][j] = word[0];
+            }
+        }
+        return false;
+    }
+};
