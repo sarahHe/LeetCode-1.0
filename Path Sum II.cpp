@@ -32,3 +32,40 @@ public:
         return res;
     }
 };
+
+
+2015.3.12 update
+//just 10ms faster
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    void getPath(TreeNode *root, int sum, int tmpSum, vector<int> tmpV, vector<vector<int> > &res) {
+        tmpSum += root->val;
+        tmpV.push_back(root->val);
+        if (!root->left && !root->right && tmpSum == sum)
+            res.push_back(tmpV);
+        
+        if (root->left)
+            getPath(root->left, sum, tmpSum, tmpV, res);
+        if (root->right)
+            getPath(root->right, sum, tmpSum, tmpV, res);
+        tmpV.pop_back();
+        tmpSum -= root->val;
+    }
+
+    vector<vector<int> > pathSum(TreeNode *root, int sum) {
+        vector<int> tmpV;
+        vector<vector<int> > res;
+        if (!root)  return res;
+        getPath(aroot, sum, 0, tmpV, res);
+        return res;
+    }
+};
