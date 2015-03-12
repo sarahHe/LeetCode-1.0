@@ -65,3 +65,30 @@ public:
     }
 };
 
+2015.3.11 update
+class Solution {
+public:
+    void inOrderTraversal(TreeNode *root) {
+        if (root == NULL)   return;
+        
+        inOrderTraversal(root->left);
+        
+        if (pre->val > root->val) {
+            if (f1 == NULL)
+                f1 = pre;
+            
+            f2 = root; // no else
+        }
+        pre = root;
+        
+        inOrderTraversal(root->right);
+    }
+    
+    void recoverTree(TreeNode *root) {
+        inOrderTraversal(root);
+        if (f1 && f2) // pay attention
+            swap(f1->val, f2->val);
+    }
+private:
+    TreeNode *f1 = NULL, *f2 = NULL, *pre = new TreeNode(INT_MIN);
+};
