@@ -19,20 +19,18 @@ public:
         if (p == preorder.size() || end < 0 || start > end) return NULL;
             
         TreeNode *root = new TreeNode(preorder[p]);
-        if (start == end)   return root; // important
-        int i = start;
+        if (start == end)   return root; // important, early terminate
         
         //find the position of root in inorder
-        while (i <= end) {
-            if (preorder[p] == inorder[i])
-                break;
+        int i = start;
+        while (i <= end && inorder[i] != preorder[pos])
             i++;
-        }
-        int left_len = i - start;
+        
         //every node in the left tree is to the left of the root(i), the same with right
         root->left = helper(preorder, inorder, p + 1, start, i - 1);
         //the root for the right part is 1st node in the right part
-        root->right = helper(preorder, inorder, p + left_len + 1, i + 1, end);
+        root->right = build_helper(preorder, inorder, pos + (i - start) + 1, i + 1, end); //right
+        // pos + len(left_tree) + 1
         return root;
     }
 
