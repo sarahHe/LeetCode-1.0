@@ -34,3 +34,48 @@ public:
 private:
     stack<int> s1, s_min;
 };
+
+
+2015.4.20 update
+// refer to "discussion"
+// The question is ask to construct One stack. So I am using one stack.
+// The idea is to store the gap between the min value and the current value;
+// The problem for my solution is the cast. I have no idea to avoid the cast. 
+// Since the possible gap between the current value and the min value could be Integer.MAXVALUE-Integer.MINVALUE;
+class MinStack {
+    int min;
+    stack<int> myStack;
+public:
+    void push(int x) {
+        if (myStack.empty()) {
+            myStack.push(0);
+            min = x;
+        }
+        else {
+            myStack.push(x - min);
+            if (x < min)
+                min = x;
+        }
+    }
+
+    void pop() {
+        if (myStack.empty())  return;
+       
+        int top = myStack.top();
+        if (top < 0)
+            min -= top;
+        myStack.pop();
+    }
+
+    int top() {
+        int top = myStack.top();
+        if (top < 0)
+            return min;
+        else
+            return min + top;
+    }
+
+    int getMin() {
+        return min;
+    }
+};
