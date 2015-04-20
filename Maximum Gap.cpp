@@ -10,6 +10,8 @@ public:
             maxs = max(maxs, i);
             mins = min(mins, i);
         }
+        // int maxNum = *max_element(num.begin(), num.end());
+        // int minNum = *min_element(num.begin(), num.end());
         int len = (maxs - mins)/num.size() + 1;
         vector<pair<int, int> > bucket((maxs - mins)/len + 1, pair<int, int> (INT_MAX, INT_MIN));
         for (auto i : num) {
