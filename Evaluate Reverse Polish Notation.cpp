@@ -37,3 +37,35 @@ int evalRPN(vector<string>& tokens) {
     }
     return numbers.top();
 }
+
+
+//Found a cool recursive way. A bit slow
+int eval_expression(vector<string>& tokens, int& pt)
+{
+    string s = tokens[pt];
+
+    if(s == "+" || s == "-" || s == "*" || s== "/") // tokens[r] is an operator
+    {
+        pt--;
+        int v2 = eval_expression(tokens, pt);
+        pt--;
+        int v1 = eval_expression(tokens, pt);
+        if(s == "+")
+            return v1 + v2;
+        else if(s == "-")
+            return v1 - v2;
+        else if(s == "*")
+            return v1 * v2;
+        else 
+            return v1 / v2;
+    }
+    else // tokens[r] is a number
+    {
+        return atoi(s.c_str());
+    }
+}
+
+int evalRPN(vector<string> &tokens) {
+    int pt = tokens.size()-1; 
+    return eval_expression(tokens, pt);
+}
