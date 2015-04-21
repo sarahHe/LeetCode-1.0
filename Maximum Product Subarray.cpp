@@ -14,3 +14,21 @@ public:
         return global;
     }
 };
+
+2015.4.20 update 
+reduce run time from 40ms to 11ms
+class Solution {
+public:
+    int maxProduct(vector<int>& nums) {
+        int global = nums[0], localmin = 1, localmax = 1;
+        for (auto i : nums) {
+            if (i < 0)
+                swap(localmin, localmax);
+                
+            localmax = max(i, localmax * i);
+            localmin = min(i, localmin * i);
+            global = max(global, localmax);
+        }
+        return global;
+    }
+};
