@@ -35,3 +35,31 @@ public:
         s = s.substr(0, s.length() - 1);
     }
 };
+
+
+2015.4.20 update
+//can't remove empty space
+void reverse(string &s, int i, int j) { // j is 1 + end
+    while (i < j-1) {
+        swap(s[i], s[j-1]);
+        i++; j--;
+    }
+}
+
+void reverseWords(string &s) {
+    if (s == "")    return;
+    
+    reverse(s, 0, (int)s.length());
+    int i = 0;
+    while(i < s.length()) {
+        while (i < s.length() && s[i] == ' ')
+            i++;
+        
+        int j = i;
+        while (j < s.length() && s[j] != ' ')
+            j++;
+        
+        reverse(s, i, j);
+        i = j;
+    }
+}
