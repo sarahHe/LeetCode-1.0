@@ -3,6 +3,7 @@ Sort a linked list in O(n log n) time using constant space complexity
 归并算法！
 */
 
+2015.4.24 update run time from 86ms to 62ms
 /**
  * Definition for singly-linked list.
  * struct ListNode {
@@ -13,41 +14,41 @@ Sort a linked list in O(n log n) time using constant space complexity
  */
 class Solution {
 public:
-    ListNode *getMid(ListNode *head) {
-        ListNode *fast = head,
-        *slow = head;
-        while (fast->next && fast->next->next) {
-            fast = fast->next->next;
-            slow = slow->next;
-        }
-        return slow;
-    }
-    
-    ListNode *merge(ListNode *a, ListNode *b) {
-        ListNode *dummy_head = new ListNode(-1), *res = dummy_head;
-        //这里不能让dummy_head = NULL, res = head;虽然说指针指向的是内容，
-        //但似乎初始化为NULL了之后，res也不知道指向哪儿了，并不是指向dummy_head
-        while (a && b) {
-            if (a->val < b->val) {
-                res->next = a;
-                a = a->next;
+    ListNode *merge(ListNode *head1, ListNode *head2) {
+        ListNode dummy(-1), *res = &dummy;
+        while (head1 && head2) {
+            if (head1->val < head2->val) {
+                res->next = head1;
+                head1 = head1->next;
             }
             else {
-                res->next = b;
-                b = b->next;
+                res->next = head2;
+                head2 = head2->next;
             }
             res = res->next;
         }
-        res->next = a == NULL ? b : a;
-        return dummy_head->next;
-    }
-    
-    ListNode *sortList(ListNode *head) {
-        if (!head || !head->next)  return head;
         
-        ListNode *mid = getMid(head),
-        *mid_next = mid->next;
-        mid->next = NULL;
-        return merge(sortList(head), sortList(mid_next));
+        res->next = (head1 == NULL) ? head2 : head1;
+        return dummy.next;
+    }
+
+    ListNode *getMid(ListNode *head) {
+        if (head == NULL || head->next == NULL) return head;
+        
+        ListNode *fast = head->next->next, *slow = head;
+        while (fast && fast->next) {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        return slow;
+    }
+
+    ListNode *sortList(ListNode *head) {
+        if (head == NULL || head->next == NULL) return head;
+        
+        ListNode *midNode = getMid(head);
+        ListNode *secHead = midNode->next;
+        midNode->next = NULL;// important
+        return merge(sortList(head), sortList(secHead));
     }
 };
