@@ -17,52 +17,48 @@
 
 //be careful about the type
 
-struct Node {
-    int key;
-    int value;
-    Node(int k, int v):key(k),value(v){};
-};
-
 class LRUCache{
-private:
-    int maxSize;
-    map<int, list<Node>::iterator> mp;
-    list<Node> theList;
 public:
     LRUCache(int capacity) {
         maxSize = capacity;
     }
     
     int get(int key) {
-        if (mp.find(key) != mp.end()) {
-            theList.erase(mp[key]);
-            theList.push_front(*mp[key]);
-            mp[key] = theList.begin();
-            return mp[key]->value;
-        }
-        else
+        MAP::iterator it = cache.find(key);
+        if (it == cache.end())
             return -1;
-        
+        else {
+            update(it);
+            return it->second.first;
+        }
     }
     
     void set(int key, int value) {
-        Node newNode(key, value);
-        if (mp.find(key) == mp.end()) {//doesn't find insert
-            if (theList.size() == maxSize) { //full
-                mp.erase(theList.back().key);
-                theList.pop_back();
-                theList.push_front(newNode);
-                mp[key] = theList.begin();
+        MAP::iterator it = cache.find(key);
+        if (it == cache.end()) { // add new element, check capacity first
+            if (maxSize == myList.size()) {
+                cache.erase(myList.back());
+                myList.pop_back();
             }
-            else {
-                theList.push_front(newNode);
-                mp[key] = theList.begin();
-            }
-        }
-        else { //found so set
-            theList.erase(mp[key]);
-            theList.push_front(newNode);
-            mp[key] = theList.begin();
-        }
+            myList.push_front(key);
+        }else 
+            update(it);
+        cache[key] = {value, myList.begin()};
+    }
+    
+private:
+    typedef list<int> LIST; //store all key
+    typedef pair<int, LIST::iterator> PAIR; // first is the value
+    typedef unordered_map<int, PAIR> MAP; // int is for key
+
+    int maxSize;
+    LIST myList;
+    MAP cache;
+    
+    void update(MAP::iterator it) {
+        int key = it->first;
+        myList.erase(it->second.second);
+        myList.push_front(key);
+        it->second.second = myList.begin();
     }
 };
