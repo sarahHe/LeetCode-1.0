@@ -1,6 +1,5 @@
 //Sort a linked list using insertion sort.
 
-//just be careful about the every scenarios.
 /**
  * Definition for singly-linked list.
  * struct ListNode {
@@ -11,56 +10,18 @@
  */
 class Solution {
 public:
-    ListNode *insertionSortList(ListNode *head) {
-        if (!head)  return NULL;
-        
-        ListNode *p = head, *q = head->next;
-        while (q) {
-            if (q->val >= p->val) {
-                p = q;
-                q = q->next;
-            }
-            else {
-                ListNode *t = head, *t_pre = head;
-                while (t != q) {
-                    if (q->val >= t->val) {
-                        t_pre = t;
-                        t = t->next;
-                    }
-                    else {
-                        p->next = q->next;
-                        q->next = t;
-                        if (t != head) 
-                            t_pre->next = q;
-                        else 
-                            head = q;
-                        q = p->next;
-                        break;
-                    }
-                }
-            }
+    ListNode* insertionSortList(ListNode* head) {
+        ListNode helper(-1), *pre, *current = head; 
+        // helper.next = head; infinite loop with this line
+        while (current) {
+            pre = &helper;
+            while (pre->next && pre->next->val < current->val)
+                pre = pre->next;
+            ListNode *next = current->next;
+            current->next = pre->next;
+            pre->next = current;
+            current = next;
         }
-        return head;
-    }
-};
-
-other's solution:
-class Solution {
-public:
-    ListNode *insertionSortList(ListNode *head) {
-        // IMPORTANT: Please reset any member data you declared, as
-        // the same Solution instance will be reused for each test case.
-        ListNode *ret = NULL, *tmp = head, *nxt = NULL;
-        ListNode **pCur = &ret;
-        while (tmp) {
-            pCur = &ret;
-            while (*pCur && (*pCur)->val <= tmp->val)
-                pCur = &((*pCur)->next);
-            nxt = tmp->next;
-            tmp->next = *pCur;
-            *pCur = tmp;
-            tmp = nxt;
-        }
-        return ret;
+        return helper.next;
     }
 };
