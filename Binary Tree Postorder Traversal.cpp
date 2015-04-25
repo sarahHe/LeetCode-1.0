@@ -7,43 +7,41 @@
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
+2015.4.25 update
 class Solution {
 public:
     vector<int> postorderTraversal(TreeNode *root) {
+        //one stack solution
         vector<int> res;
         if (!root)  return res;
         
         stack<TreeNode*> s;
         s.push(root);
-        TreeNode *visited = root;
-        while(!s.empty()) {
+        TreeNode *pre = nullptr;
+        while (!s.empty()) {
             TreeNode *node = s.top();
-            s.pop();
-            if ((!node->right && !node->left) 
-                || (node->left && node->left == visited) 
-                || (node->right && node->right == visited)
-            ) {
-                res.push_back(node->val);
-                visited = node;
-            }
-            else {
-                s.push(node);
-                if (node->right && node->right != visited)
-                    s.push(node->right);
-                if (node->left && node->left != visited)
-                    s.push(node->left);
+            if ((!node->left && !node->right) ||
+                (node->left && node->left == pre) ||
+                (node->right && node->right == pre)) {
+                    s.pop();
+                    res.push_back(node->val);
+                    pre = node;
+                    continue; // improve the effeciency
                 }
+            
+            if (node->right && node->right != pre) //right push first so pop later
+                s.push(node->right);
+            if (node->left && node->left != pre)
+                s.push(node->left);
         }
         return res;
     }
 };
 
-
-2015.4.25 update
 class Solution {
 public:
     vector<int> postorderTraversal(TreeNode *root) {
-        //two stack solution
+        //two stacks solution
         stack<TreeNode*> s, out;
         vector<int> res;
         if (!root)  return res;
