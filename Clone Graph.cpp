@@ -35,3 +35,28 @@ public:
         return res;
     }
 };
+
+
+2015.4.26 update time reduce from 160ms to 77ms
+class Solution {
+public:
+    UndirectedGraphNode *dfs(unordered_map<int, UndirectedGraphNode*> &myMap, UndirectedGraphNode *node) {
+        UndirectedGraphNode *newNode = new UndirectedGraphNode(node->label);
+        myMap[newNode->label] = newNode;
+        
+        for (auto i : node->neighbors) {
+            if (myMap[i->label])
+                (newNode->neighbors).push_back(myMap[i->label]);
+            else
+                (newNode->neighbors).push_back(dfs(myMap, i));
+        }
+        return newNode;
+    }
+
+    UndirectedGraphNode *cloneGraph(UndirectedGraphNode *node) {
+        if (!node)  return NULL;
+        
+        unordered_map<int, UndirectedGraphNode*> myMap;
+        return dfs(myMap, node);
+    }
+};
