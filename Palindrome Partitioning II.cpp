@@ -33,3 +33,24 @@ public:
         return D[0]-1;
     }
 };
+
+
+
+2015.4.26 update reduce from 90ms to 22ms
+class Solution {
+public:
+    int minCut(string s) {
+        vector<int> cut(s.length()+1, 0);
+        for (int i = 0; i <= s.length(); i++) cut[i] = i-1; //number of cut for first k charactors.
+        for (int i = 0; i < s.length(); i++) {
+            // odd length palindrome
+            for (int j = 0; j <= i && j < s.length() - i && s[i-j] == s[i+j]; j++)
+                cut[i+j+1] = min(cut[i-j] + 1, cut[i+j+1]);
+            
+            // even length palindrome
+            for (int j = 1; j <= i+1 && j < s.length() - i && s[i-j+1] == s[i+j]; j++)
+                cut[i+j+1] = min(cut[i-j+1]+1, cut[i+j+1]);
+        }
+        return cut.back();
+    }
+};
