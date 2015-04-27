@@ -27,3 +27,19 @@ public:
         return getNum(root, total);
     }
 };
+
+
+2015.4.26 update reduce time from 9ms to 5ms
+class Solution {
+public:
+    int getSum(TreeNode *root, int res) {
+        if (!root)  return 0; //return 0 rather than res
+        
+        if (!root->left && !root->right)    return res*10+root->val;
+        return getSum(root->left, res*10 + root->val) + getSum(root->right, res*10+root->val);
+    }
+    
+    int sumNumbers(TreeNode *root) {
+        return getSum(root, 0);
+    }
+};
