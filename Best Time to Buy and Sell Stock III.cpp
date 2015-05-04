@@ -20,7 +20,7 @@ public:
             mins = min(mins, prices[i]);
             
             //right[i]: so far the maxProfit from right
-            right[prices.size() - i - 1] = max(right[prices.size() - i - 1], maxs - prices[prices.size() - i -1]);
+            right[prices.size() - i - 1] = max(right[prices.size() - i], maxs - prices[prices.size() - i -1]);
             maxs = max(maxs, prices[prices.size() - i-1]);
         }
         int maxProfit = 0;
