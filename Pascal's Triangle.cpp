@@ -59,3 +59,22 @@ public:
         return res;
     }
 };
+
+
+
+2015.5.5 update
+//a little bit slower but code is concise
+class Solution {
+public:
+    vector<vector<int>> generate(int numRows) {
+        vector<vector<int> > result;
+        for (int i = 0; i < numRows; i++) {
+            vector<int> tmp(i+1, 0);
+            tmp[0] = tmp[i] = 1;
+            for (int j = 1; j < i; j++)
+                tmp[j] = result[i-1][j] + result[i-1][j-1];
+            result.push_back(tmp);
+        }
+        return result;
+    }
+};
