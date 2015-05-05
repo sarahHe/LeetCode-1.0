@@ -32,7 +32,7 @@ public:
 
 2015.3.15 update
 //can only go down or down right
-//buttom up, in-place
+//top-down in place
 class Solution {
 public:
     int minimumTotal(vector<vector<int> > &triangle) {
@@ -51,5 +51,23 @@ public:
         for (int i = 0; i < triangle.back().size(); i++)
             res = min(res, triangle.back()[i]);
         return res;
+    }
+};
+
+
+
+2015.5.5 update
+//buttom up, in-place
+class Solution {
+public:
+    int minimumTotal(vector<vector<int> > &triangle) {
+        if (triangle.size() == 0 || triangle[0].size() == 0)
+            return 0;
+        for (int i = triangle.size() - 2; i >= 0; i--) {
+            for (int j = 0; j < triangle[i].size(); j++) {
+                triangle[i][j] += min(triangle[i+1][j], triangle[i+1][j+1]);
+            }
+        }
+        return triangle[0][0];
     }
 };
