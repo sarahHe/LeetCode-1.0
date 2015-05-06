@@ -18,3 +18,25 @@ public:
         connect(root->right);
     }
 };
+
+
+
+2015.5.5 update
+ //iteration method level by level
+class Solution {
+public:
+    void connect(TreeLinkNode *root) {
+        if (!root)  return;
+        TreeLinkNode *pre = root, *cur = NULL;
+        while (pre->left) {
+            cur = pre;
+            while(cur) {
+                cur->left->next = cur->right;
+                if (cur->next)
+                    cur->right->next = cur->next->left;
+                cur = cur->next;
+            }
+            pre = pre->left; //next level
+        }
+    }
+};
