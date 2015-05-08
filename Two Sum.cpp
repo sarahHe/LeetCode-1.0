@@ -23,7 +23,7 @@ numbers按非递减排序，设置两个游标idx1和idx2.
 class Solution {
 public:
     vector<int> twoSum(vector<int> &numbers, int target) {
-        vector<int> res;
+        vector<int> res; // vector<int> res(2, -1);
         unordered_map<int, int> table;
         for (int i = 0; i < numbers.size(); i++) {
             if (table[target - numbers[i]]) {
@@ -33,8 +33,8 @@ public:
                 // res.push_back(max(i + 1,
                 //                   table[target - numbers[i]]));
                 //因为是遍历一遍，所以i+1 肯定比table[target - numbers[i]]大
-                res.push_back(table[target - numbers[i]]);
-                res.push_back(i+1);
+                res.push_back(table[target - numbers[i]]); //res[0] = my_map[target - nums[i]];
+                res.push_back(i+1); //res[1] = i+1;
                 break;
             }
             else
