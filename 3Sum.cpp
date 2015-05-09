@@ -26,6 +26,7 @@ public:
                     low++;
                 else
                     high--;
+                //the following part should come after the section above
                 while (low > i+1 && num[low] == num[low-1])
                     low++;
                 while (high < num.size()-1 && num[high] == num[high+1])
