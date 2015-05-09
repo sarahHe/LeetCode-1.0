@@ -32,3 +32,28 @@ public:
         return res;
     }
 };
+
+
+2015.5.8 update
+int threeSumClosest(vector<int>& nums, int target) {
+    //找的是最接近的sum, 这更找最接近的sum的triplet不一样
+    sort(nums.begin(), nums.end());
+    int res = target >= 0 ? INT_MAX : INT_MIN; //int res = num[0] + num[1] + num[2]; 之前这种很省心
+    for (int i = 0; i < nums.size() - 2; i++) {
+        int j = i + 1, k = nums.size() - 1;
+        while (j < k) {
+            int sum = nums[i] + nums[j] + nums[k];
+            
+            if (sum > target) //大部分情况都不是==的情况
+                k--;
+            else if (sum < target)
+                j++;
+            else
+                return sum;
+            
+            if (abs(target - sum) < abs(target - res)) 
+                res = sum;
+        }
+    }
+    return res;
+}
