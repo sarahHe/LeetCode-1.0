@@ -6,7 +6,7 @@
 
 //corner case: when node is a right child of root. node's left child < node but the it's even < root.
 /**
- * Definition for binary tree
+ * Definition for a binary tree node.
  * struct TreeNode {
  *     int val;
  *     TreeNode *left;
@@ -14,18 +14,22 @@
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
+ //be careful about the node value as INT_MIN
 class Solution {
 public:
-    bool check(TreeNode *root, int min, int max) {
+    bool check(TreeNode* root, TreeNode* &pre) { //TreeNode* &pre
         if (!root)  return true;
         
-
-            return root->val > min && root->val < max && check(root->left, min, root->val) && check(root->right, root->val, max);
+        if (!check(root->left, pre))
+            return false;
+        if (pre != NULL && root->val <= pre->val)    
+            return false;
+        pre = root;
+        return check(root->right, pre);
     }
 
-    bool isValidBST(TreeNode *root) {
-        if (!root)  return true;
-        
-        return check(root->left, INT_MIN, root->val) && check(root->right, root->val, INT_MAX);
+    bool isValidBST(TreeNode* root) {
+        TreeNode *pre = NULL;
+        return check(root, pre);
     }
 };
