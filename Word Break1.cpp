@@ -5,7 +5,7 @@ public:
         match[0] = true;
         for (int i = 0; i < s.length(); i++) {
             if (match[i]) { //match[i] == true mens the string can be broken until i.
-                for (int j = 1; j <= s.length() - i; j++) {
+                for (int j = 1; j <= s.length() - i; j++) {//j <= s.length() - i
                     if (dict.find(s.substr(i, j)) != dict.end())
                         match[i + j] = true;
                 }
