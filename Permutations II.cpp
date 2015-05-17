@@ -9,6 +9,8 @@
 // 2．去重的全排列就是从第一个数字起每个数分别与它后面非重复出现的数字交换。
 // 3．全排列的非递归就是由后向前找替换数和替换点，然后由后向前找
 // 第一个比替换数大的数与替换数交换，最后颠倒替换点后的所有数据。
+
+//it turns out that the first method is optimal
 class Solution {
 public:
     bool noswap(vector<int> &num, int i, int step) {
@@ -63,6 +65,45 @@ public:
         sort(nums.begin(), nums.end()); //why sort
         vector<vector<int>> res;
         helper(nums, res, 0);
+        return res;
+    }
+};
+
+
+
+//using map grouping same value
+class Solution {
+public:
+    void helper(vector<int>& tmp, vector<vector<int>> &res, unordered_map<int, int> &mp, int n) {
+        if (n == 0) {
+            res.push_back(tmp);
+            return;
+        }
+        
+        for (auto &i : mp) {// &i not i
+            if (i.second == 0) continue;
+            tmp.push_back(i.first);
+            i.second--; // because i.second needs to be modified
+            helper(tmp, res, mp, n-1);
+            tmp.pop_back();
+            i.second++;
+        }
+    }
+
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
+        if (nums.empty())   return vector<vector<int>>();
+        
+        vector<vector<int>> res;
+        unordered_map<int, int> mp; // (number, times)
+        for (auto i : nums) {
+            if (mp[i])
+                mp[i]++;
+            else
+                mp[i] = 1;
+        }
+        
+        vector<int> tmp;
+        helper(tmp, res, mp, nums.size());
         return res;
     }
 };
