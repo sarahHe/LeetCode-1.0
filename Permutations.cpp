@@ -21,3 +21,29 @@ public:
         return res;
     }
 };
+
+
+
+2015.5.16 update
+//it seems swap methos is slower than dfs
+class Solution {
+public:
+    void helper(vector<vector<int>> &res, int pos, vector<int> &nums) {
+        if (pos == nums.size()){
+            res.push_back(nums);
+            return;
+        }
+        for (int i = pos; i < nums.size(); i++) {
+            swap(nums[pos], nums[i]);
+            helper(res, pos + 1, nums);
+            swap(nums[pos], nums[i]);
+        }
+    }
+
+    vector<vector<int>> permute(vector<int>& nums) {
+        vector<vector<int>> res;
+        if (nums.empty())   return res;
+        helper(res, 0, nums);
+        return res;
+    }
+};
