@@ -22,3 +22,24 @@ public:
             return start;
     }
 };
+
+
+2015.5.17 update
+//as long as the total gas is > cost, there must be a way.
+class Solution {
+public:
+    int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+        int start = gas.size() - 1, end = 0, sum = gas[start] - cost[start];
+        while (start > end) {
+            if (sum >= 0) { // >=
+                sum += gas[end] - cost[end];
+                end++;
+            }
+            else {
+                start--; // start-- is before the next line
+                sum += gas[start] - cost[start];
+            }
+        }
+        return sum >= 0 ? start : -1;
+    }
+};
