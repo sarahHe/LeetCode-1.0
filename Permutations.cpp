@@ -4,7 +4,7 @@ public:
         if (num.empty())
             res.push_back(tmp);
         else {
-            for (int i = 0; i < num.size(); i++) {
+            for (int i = 0; i < num.size(); i++) {//变化的不仅是i 还有num.size()
                 tmp.push_back(num.front());
                 num.erase(num.begin());
                 helper(res, tmp, num);
