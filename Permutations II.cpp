@@ -38,3 +38,31 @@ public:
         return res;
     }
 };
+
+
+
+2015.5.17 update
+//!!don't understand: pass by value and not swap back. 
+class Solution {
+public:
+    void helper(vector<int> nums, vector<vector<int>> &res, int pos) {
+        if (pos == nums.size()) {
+            res.push_back(nums);
+            return;
+        }
+        for (int i = pos; i < nums.size(); i++) {
+            if (i != pos && nums[i] == nums[pos]) continue;
+            swap(nums[i], nums[pos]);
+            helper(nums, res, pos+1); //why not swap back and pass by value
+        }
+    }
+
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
+        if (nums.empty())   return vector<vector<int>>();
+        
+        sort(nums.begin(), nums.end()); //why sort
+        vector<vector<int>> res;
+        helper(nums, res, 0);
+        return res;
+    }
+};
