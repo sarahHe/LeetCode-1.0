@@ -45,3 +45,47 @@ public:
         return res;
     }
 };
+
+
+
+2015.5.23 update
+class Solution {
+public:
+    // typedef pair<int, int> PAIR; // store index
+    
+    vector<vector<int>> fourSum(vector<int>& nums, int target) {
+        if (nums.size() < 4)   return vector<vector<int>>();
+        
+        sort(nums.begin(), nums.end());
+        vector<vector<int>> res;
+        unordered_map<int, vector<pair<int, int>>> mp; // sum, pair index
+        for (int i = 0; i < nums.size(); i++) {
+            for (int j = i + 1; j < nums.size(); j++) {
+                mp[nums[i] + nums[j]].push_back(make_pair(i, j));
+            }
+        }
+        
+        for (int i = 0; i < nums.size(); i++) {
+            if (i > 0 && nums[i] == nums[i-1])  continue;
+            for (int j = i + 1; j < nums.size(); j++) {
+                if(j > i + 1 && nums[j] == nums[j-1]) continue;
+                
+                int sum = target - nums[i] - nums[j];
+                if (mp.count(sum) == 0) continue;
+                
+                for (auto it = mp[sum].begin(); it != mp[sum].end(); it++) {
+                    int idx1 = (*it).first, idx2 = (*it).second;
+                    if (idx1 <= j)    continue;// idx1>j make sure that the third pair has bigger values than the previous pair.
+                    
+                    if (!res.empty() && nums[i] == res.back()[0] && nums[j] == res.back()[1] && nums[idx1] == res.back()[2] && nums[idx2] == res.back()[3])
+                        continue;
+                    
+                    vector<int> tmp = {nums[i], nums[j], nums[idx1], nums[idx2]};
+                    res.push_back(tmp);
+                }
+            }
+        }
+        
+        return res;
+    }
+};
