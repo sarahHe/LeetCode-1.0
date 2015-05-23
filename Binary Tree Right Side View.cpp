@@ -45,3 +45,25 @@ public:
     //     return res;
     // }
 };
+
+
+
+
+
+2015.5.23 update
+class Solution {
+public:
+    void nextLevel(TreeNode* root, int level, vector<int> &res) {
+        if (!root)  return;
+        
+        if (res.size() < level) res.push_back(root->val);
+        nextLevel(root->right, level+1, res);
+        nextLevel(root->left, level+1, res);
+    }
+
+    vector<int> rightSideView(TreeNode* root) {
+        vector<int> res;
+        nextLevel(root, 1, res); //1 instead of 0
+        return res;
+    }
+};
