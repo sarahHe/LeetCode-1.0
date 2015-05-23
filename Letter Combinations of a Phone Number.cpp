@@ -50,3 +50,10 @@ public:
 private:
     vector<string> letter = {"--", "--", "abc", "edf", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"}; // make use of private data could speed up a little bit
 };
+
+
+//another smart way:
+//sore letter in this way:
+int convert[10] = {0, 3, 6, 9, 12, 15, 19, 22, 26};
+//Then convert it back
+int tmp = dig[now] - '0' - 2;//change '2' to 0, '3' to 1...
