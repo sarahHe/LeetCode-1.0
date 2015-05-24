@@ -37,3 +37,25 @@ public:
         return s.substr(start, max);
     }
 };
+
+
+2015.5.24 update
+string longestPalindrome(string s) {
+    if (s.size() < 2)   return s;
+    
+    bool dp[1000][1000] = {false};
+    int start = 0, len = 1;
+    for (int i = s.length() - 2; i >= 0; --i) {
+        for (int j = i + 1; j < s.length(); ++j) {
+            if (s[i] == s[j] && (i + 1 == j - 1 || i + 1 == j || dp[i+1][j-1])) {
+                dp[i][j] = true;
+                if (j - i + 1 > len) {
+                    len = j - i + 1;
+                    start = i;
+                }
+            }
+            
+        }
+    }
+    return s.substr(start, len);
+}
