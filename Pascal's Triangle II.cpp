@@ -21,16 +21,18 @@ public:
 };
 
 
-2015.5.5 update
-//reduce time from 6ms to 3ms
+2015.5.24 update
+//reduce time from to 0ms
 class Solution {
 public:
     vector<int> getRow(int rowIndex) {
-        vector<int> res(rowIndex+1, 0);
-        res[0] = 1;
-        for (int i = 0; i <= rowIndex; i++) 
-            for (int j = i; j > 0; j--)
-                res[j] += res[j-1];
-        return res;
+        //k start from 0
+        vector<int> row(rowIndex+1, 1);
+        for (int i = 0; i <= rowIndex; ++i) {
+            for (int j = i - 1; j > 0; --j) { // j start from i - 1 instead of 1, to avoid override
+                row[j] += row[j-1];
+            }   
+        }
+        return row;
     }
 };
