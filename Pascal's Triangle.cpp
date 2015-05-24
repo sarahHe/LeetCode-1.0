@@ -62,19 +62,18 @@ public:
 
 
 
-2015.5.5 update
-//a little bit slower but code is concise
+2015.5.24 update
 class Solution {
 public:
     vector<vector<int>> generate(int numRows) {
-        vector<vector<int> > result;
-        for (int i = 0; i < numRows; i++) {
-            vector<int> tmp(i+1, 0);
-            tmp[0] = tmp[i] = 1;
-            for (int j = 1; j < i; j++)
-                tmp[j] = result[i-1][j] + result[i-1][j-1];
-            result.push_back(tmp);
+        vector<vector<int>> res;
+        if (numRows == 0)   return res;
+        for (int i = 1; i <= numRows; ++i) {
+            vector<int> tmp (i, 1); // size is i;
+            for (int j = 1; j < i-1; j++) // j = 1; j < i - 1
+                tmp[j] = res[i-2][j-1] + res[i-2][j]; // res[i-2][]
+            res.push_back(tmp);
         }
-        return result;
+        return res;
     }
 };
