@@ -63,3 +63,28 @@ void reverseWords(string &s) {
         i = j;
     }
 }
+
+
+2015.5.25 update
+//optimal solution
+class Solution {
+public:
+    void reverseWords(string &s) {
+        if (s == "")    return;
+        
+        reverse(s.begin(), s.end());
+        int start = 0;
+        for (int i = 0; i < s.length(); i++) {
+            if (s[i] != ' ') {
+                if (start != 0)
+                    s[start++] = ' ';
+                int j = i;
+                while (j < s.length() && s[j] != ' ')
+                    s[start++] = s[j++];
+                reverse(s.begin() + start - (j - i), s.begin() + start);
+                i = j;
+            }
+        }
+        s.erase(s.begin() + start, s.end());
+    }
+};
