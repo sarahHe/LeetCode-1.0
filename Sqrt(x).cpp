@@ -4,7 +4,7 @@
 class Solution {
 public:
     int sqrt(int x) {
-        int low = 0, high = x;
+        int low = 0, high = x; // low = 0
         while (low < high) {
             int mid = low + (high - low)/2 + 1;//如果没有+1， mid可能为0
             if (mid == x/mid)
@@ -18,3 +18,4 @@ public:
         //从while循环中出来low >= high
     }
 };
+
