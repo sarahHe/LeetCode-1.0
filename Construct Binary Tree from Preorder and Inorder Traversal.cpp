@@ -39,3 +39,37 @@ public:
         //it's better for end to be the last accesible index
     }
 };
+
+
+
+2015.5.24 update
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* build(vector<int>& preorder, vector<int>& inorder, int pos, int start, int end) {
+        if (start > end)    return NULL;
+        
+        int i = start;
+        while (i <= end && inorder[i] != preorder[pos])  
+            ++i;
+        TreeNode* node = new TreeNode(inorder[i]);
+        int left_len = i - start + 1; //including root
+        node->left = build(preorder, inorder, pos + 1, start, i - 1);
+        node->right = build(preorder, inorder, pos + left_len, i + 1, end);
+        return node;
+    }
+
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        int n = inorder.size();
+        if (n == 0) return NULL;
+        return build(preorder, inorder, 0, 0, n-1);
+    }
+};
