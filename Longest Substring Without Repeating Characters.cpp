@@ -19,3 +19,21 @@ public:
         return maxLen;
     }
 };
+
+
+2015.5.24 update
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        if (s == "")    return 0;
+        vector<int> m(256, -1);
+        int len = 0, start = -1, i;
+        for (i = 0; i < s.length(); ++i) {
+            if (m[s[i]] >= start) //repeat
+                start = m[s[i]] + 1;
+            m[s[i]] = i;
+            len = max(len, i - start + 1);
+        }
+        return len;
+    }
+};
