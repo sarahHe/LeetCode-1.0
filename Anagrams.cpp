@@ -23,3 +23,23 @@ public:
         return res;
     }
 };
+
+
+2015.5.25 update
+//not a big change
+vector<string> anagrams(vector<string>& strs) {
+    unordered_map<string, vector<string>> mp;
+    vector<string> res;
+    for (auto i : strs) {
+        string copy = i;
+        sort(i.begin(), i.end());
+        mp[i].push_back(copy);
+    }
+    for (auto it = mp.begin(); it != mp.end(); it++) {
+        if (it->second.size() > 1) { //it->second; not it.second
+            for (auto i : it->second)
+                res.push_back(i);
+        }
+    }
+    return res;
+}
