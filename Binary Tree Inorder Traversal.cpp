@@ -38,3 +38,28 @@ public:
         return res;
     }
 };
+
+
+2015.5.25 update
+//using stack
+//can't understand morris algorithm
+class Solution {
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+        stack<TreeNode*> s;
+        vector<int> res;
+        TreeNode *cur = root;
+        while (!s.empty() || cur) {
+            if (cur) {
+                s.push(cur);
+                cur = cur->left;
+            } else {
+                TreeNode *node = s.top();
+                s.pop();
+                res.push_back(node->val);
+                cur = node->right;
+            }
+        }
+        return res;
+    }
+};
