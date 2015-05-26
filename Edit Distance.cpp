@@ -22,7 +22,7 @@ public:
         for (int i = 0; i <= word2.size(); i++)
             dp[0][i] = i; // pay attention
         
-        for (int i = 1; i <= word1.size(); i++) {
+        for (int i = 1; i <= word1.size(); i++) { //start from 1
             for (int j = 1; j <= word2.size(); j++) {
                 if (word1[i-1] == word2[j-1])
                     dp[i][j] = dp[i-1][j-1];
