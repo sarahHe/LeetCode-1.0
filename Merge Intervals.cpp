@@ -29,8 +29,8 @@ public:
         sort(intervals.begin(), intervals.end(), cmp);
         int i =  0;
         while (i < intervals.size()) {
-            int start = intervals[i].start,
-                end = intervals[i].end;
+            int start = intervals[i].start, 
+                end = intervals[i].end;// inside the loop
             while (i < intervals.size() && end >= intervals[i].start) {
                 end = max(end, intervals[i].end); // must inside the while loop
                 i++;
