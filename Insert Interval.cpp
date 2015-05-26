@@ -95,3 +95,49 @@ vector<Interval> insert(vector<Interval> &intervals, Interval newInterval) {
     }
     return ans;
 }
+
+
+
+2015.5.25 update
+//more readable
+class Solution {
+public:
+    vector<Interval> insert(vector<Interval>& intervals, Interval newInterval) {
+        vector<Interval> res;
+        int i = 0;
+        while (i < intervals.size() && newInterval.start > intervals[i].end) { // push the first part
+            res.push_back(intervals[i]);
+            i++;
+        }
+        
+        if (i == intervals.size()) { //merge
+            res.push_back(newInterval);
+            return res;
+        } // insert as the last one
+        //merge
+        int start, end;
+        if (newInterval.end < intervals[i].start) { //cant' use i == 0 or newInterval.start <= intervals[i].end!!!
+            start = newInterval.start;
+            end = newInterval.end;
+        } // insert as the first one
+        else {
+            start = min(intervals[i].start, newInterval.start);
+            end = max(intervals[i].end, newInterval.end);
+            i++;
+        }
+        
+        while (i < intervals.size() && end >= intervals[i].start) {//merge
+            end = max(intervals[i].end, end);
+            i++;
+        }
+        Interval itl(start, end);
+        res.push_back(itl);
+        
+        // push the remaining intervals
+        while (i < intervals.size()) {
+            res.push_back(intervals[i]);
+            i++;
+        }
+        return res;
+    }
+};
