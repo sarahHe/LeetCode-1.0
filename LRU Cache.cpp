@@ -62,3 +62,53 @@ private:
         it->second.second = myList.begin();
     }
 };
+
+
+
+2015.5.27 update
+//my own design
+class LRUCache{
+public:
+    LRUCache(int capacity) {
+        size = capacity;
+    }
+    
+    int get(int key) {
+//        auto it = mp[key]; //can't use this line
+        auto it = mp.find(key);
+        if (it != mp.end()) {
+            int val = it->second->second;
+            cache.erase(it->second);
+            cache.push_front(make_pair(key, val));
+            mp[key] = cache.begin();
+            return val;
+        }
+        return -1;
+    }
+    
+    void set(int key, int value) {
+//        auto it = mp[key]; //can't use this line
+        auto it = mp.find(key);
+        if (it != mp.end()) {// if found
+            cache.erase(it->second);
+            cache.push_front(make_pair(key, value));
+            mp[key] = cache.begin();
+        } else { // if not found
+            if (cache.size() == size) {// if full
+                auto mpit = mp.find(cache.back().first);
+                mp.erase(mpit);
+                cache.pop_back();
+                cache.push_front(make_pair(key, value));
+                mp[key] = cache.begin();
+            } else {// if not full
+                cache.push_front(make_pair(key, value));
+                mp[key] = cache.begin();
+            }
+        }
+    }
+    
+private:
+    int size;
+    list<pair<int, int>> cache;//(key,val)
+    unordered_map<int, list<pair<int, int>>::iterator> mp;//(key, it(key,val))
+};
