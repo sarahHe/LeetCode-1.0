@@ -55,3 +55,32 @@ public:
         return stk.empty();
     }
 };
+
+
+
+2015.5.28 update
+class Solution {
+public:
+    bool isValid(string s) {
+        //speed up the program;
+        if (s.length() % 2 == 1)    return false;
+        unordered_set<string> mySet = {"()", "{}", "[]"};
+        stack<char> myStack;
+        for (int i = 0; i < s.length(); i++) {
+            if (myStack.empty()) {
+                if (s[i] == '(' || s[i] == '{' || s[i] == '[')
+                    myStack.push(s[i]);
+                else
+                    return false;
+            } else {
+                string tmp(1, myStack.top()); //!!
+                tmp += string(1, s[i]);
+                if (mySet.count(tmp) == 0)
+                    myStack.push(s[i]); //!!
+                else
+                    myStack.pop();
+            }
+        }
+        return myStack.empty(); //!!
+    }
+};
