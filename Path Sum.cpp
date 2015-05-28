@@ -27,3 +27,23 @@ public:
         return found(root, 0, sum);
     }
 };
+
+
+
+class Solution {
+public:
+    bool check(TreeNode* root, int sum, int tmpSum) {
+        if (!root)  return false;
+        if (!root->left && !root->right && tmpSum + root->val == sum)
+            return true;
+        
+        tmpSum += root->val;
+        if (check(root->left, sum, tmpSum) || check(root->right, sum, tmpSum))
+            return true;
+        return false;
+    }
+
+    bool hasPathSum(TreeNode* root, int sum) {
+        return check(root, sum, 0);
+    }
+};
