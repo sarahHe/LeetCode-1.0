@@ -20,3 +20,27 @@ public:
         return res;
     }
 };
+
+
+
+2015.5.29 update
+class Solution {
+public:
+    void helper(vector<vector<int>> &res, vector<int> &tmp, vector<int> &nums, int pos) {
+        res.push_back(tmp);
+        
+        for (int i = pos; i < nums.size(); i++) {
+            tmp.push_back(nums[i]);
+            helper(res, tmp, nums, i+1);
+            tmp.pop_back();
+        }
+    }
+
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<vector<int>> res; 
+        vector<int> tmp;
+        sort(nums.begin(), nums.end());
+        helper(res, tmp, nums, 0);
+        return res;
+    }
+};
