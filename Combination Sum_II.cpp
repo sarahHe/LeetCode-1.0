@@ -13,29 +13,26 @@
 // [1, 1, 6] 
 class Solution {
 public:
-     void helper(vector<int> &num, int target, int sum, vector<vector<int> > &res, vector<int> &tmp, int pos) {
-        if (sum > target)
-            return;
-            
+    void helper(vector<vector<int>> &res, vector<int> &tmp, int pos, int sum, vector<int>& candidates, int target) {
         if (sum == target) {
             res.push_back(tmp);
             return;
         }
         
-        for (int i = pos; i < num.size(); i++) {
-            if (i > pos && num[i] == num[i-1])  continue; // check if i > pos rather than i > 0 !!!
-            
-            tmp.push_back(num[i]);
-            helper(num, target, sum + num[i], res, tmp, i+1);
+        for (int i = pos; i < candidates.size(); i++) {
+            if (candidates[i] == candidates[i-1] && i > pos)    continue; // i > pos rather than i > 0
+            if (sum + candidates[i] > target)   return; // speed up
+            tmp.push_back(candidates[i]);
+            helper(res, tmp, i + 1, sum + candidates[i], candidates, target);
             tmp.pop_back();
         }
     }
 
-    vector<vector<int> > combinationSum2(vector<int> &num, int target) {
-         vector<vector<int> > res;
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+        vector<vector<int>> res;
         vector<int> tmp;
-        sort(num.begin(), num.end());
-        helper(num, target, 0, res, tmp, 0);
+        sort(candidates.begin(), candidates.end());
+        helper(res, tmp, 0, 0, candidates, target);
         return res;
     }
 };
