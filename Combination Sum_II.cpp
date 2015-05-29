@@ -23,7 +23,7 @@ public:
         }
         
         for (int i = pos; i < num.size(); i++) {
-            if (i > pos && num[i] == num[i-1])  continue; // check if i > pos rather than i > 0
+            if (i > pos && num[i] == num[i-1])  continue; // check if i > pos rather than i > 0 !!!
             
             tmp.push_back(num[i]);
             helper(num, target, sum + num[i], res, tmp, i+1);
