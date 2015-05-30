@@ -1,9 +1,8 @@
-/*
-Given a collection of integers that might contain duplicates, S, return all possible subsets.
+//Given a collection of integers that might contain duplicates, S, return all possible subsets.
 
-Note:
-Elements in a subset must be in non-descending order.
-The solution set must not contain duplicate subsets.
+//Note:
+//Elements in a subset must be in non-descending order.
+//The solution set must not contain duplicate subsets.
 
 // 和Subsets I的唯一区别就是添加了两行去重的代码。
 class Solution {
