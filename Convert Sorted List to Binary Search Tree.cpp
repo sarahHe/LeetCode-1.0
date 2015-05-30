@@ -43,3 +43,27 @@ public:
         return makeBST(head, 0, len - 1);
     }
 };
+
+
+
+class Solution {
+public:
+    TreeNode* build(ListNode* head, ListNode* tail) {
+        if (head == tail)   return NULL;
+        if (head->next == tail) return new TreeNode(head->val);
+        
+        ListNode *slow = head, *fast = head;
+        while (fast != tail && fast->next != tail) {//!= tail rather than != NULL
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        TreeNode* node = new TreeNode(slow->val);
+        node->left = build(head, slow);
+        node->right = build(slow->next, tail);//slow->next
+        return node;
+    }
+    
+    TreeNode* sortedListToBST(ListNode* head) {
+        return build(head, NULL); // tail is NULL
+    }
+};
