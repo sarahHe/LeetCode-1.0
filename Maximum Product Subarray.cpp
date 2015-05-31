@@ -22,7 +22,7 @@ public:
     int maxProduct(vector<int>& nums) {
         int global = nums[0], localmin = 1, localmax = 1;
         for (auto i : nums) {
-            if (i < 0)
+            if (i < 0) //!!!!!
                 swap(localmin, localmax);
                 
             localmax = max(i, localmax * i);
