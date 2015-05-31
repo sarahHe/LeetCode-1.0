@@ -9,15 +9,13 @@
 class Solution {
 public:
     ListNode *deleteDuplicates(ListNode *head) {
-        if (!head || !head->next)   return head;
-        
         ListNode *cur = head, dummy(-1), *pre = &dummy;
         dummy.next = head;
         while (cur) {
             while (cur->next && cur->next->val == pre->next->val) 
                 cur = cur->next;
   
-            if (pre->next == cur)
+            if (pre->next == cur) //!
                 pre = pre->next;
             else
                 pre->next = cur->next;
