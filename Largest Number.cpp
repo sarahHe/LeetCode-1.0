@@ -23,26 +23,20 @@
 // 然后再把排好序的数拼接在一起就好了。
 
 class Solution {
-struct CMP {
-    bool operator()(int x, int y) {
-        string s1 = to_string(x),
-               s2 = to_string(y);
-        return s1+s2 > s2+s1;
-    }
-} cmp;
-
 public:
-    string largestNumber(vector<int> &num) {
-        if (num.empty())    return "";
-        if (num.size() == 1)    return to_string(num[0]);
-        
-        string res = "";
-        sort(num.begin(), num.end(), cmp);
-        if (num[0] == 0)
-            return "0";
-            
-        for (int i = 0; i < (int)num.size(); i++)
-            res += to_string(num[i]);
+    struct CMP {
+        bool operator()(int n1, int n2) {
+            string str1 = to_string(n1), str2 = to_string(n2);
+            return str1 + str2 > str2 + str1;
+        }
+    } cmp;
+    
+    string largestNumber(vector<int>& nums) {
+        sort(nums.begin(), nums.end(), cmp);
+        if (nums.empty() || nums[0] == 0)   return "0";
+        string res;
+        for (auto i : nums)
+            res += to_string(i);
         return res;
     }
 };
