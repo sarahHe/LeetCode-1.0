@@ -50,3 +50,26 @@ public:
         return res;
     }
 };
+
+
+
+
+2015.5.31 update
+class Solution {
+public:
+    string simplifyPath(string path) {
+        string res, tmp;
+        stack<string> s;
+        stringstream ss(path);
+        while (getline(ss, tmp, '/')) {
+            if (tmp == "" || tmp == ".") continue;
+            else if (tmp == ".." && !s.empty()) s.pop();
+            else if (tmp != "..")   s.push(tmp);
+        }
+        while (!s.empty()) {
+            res = "/" + s.top() + res;
+            s.pop();
+        }
+        return res == "" ? "/" : res;
+    }
+};
