@@ -8,20 +8,21 @@
  *     ListNode(int x) : val(x), next(NULL) {}
  * };
  */
+ 2015.6.1 update
 class Solution {
 public:
     ListNode* insertionSortList(ListNode* head) {
-        ListNode helper(-1), *pre, *current = head; 
-        // helper.next = head; infinite loop with this line
-        while (current) {
-            pre = &helper;
-            while (pre->next && pre->next->val < current->val)
+        ListNode dummy(-1);
+        while (head) {
+            ListNode *pre = &dummy;
+            while (pre->next && pre->next->val <= head->val) 
                 pre = pre->next;
-            ListNode *next = current->next;
-            current->next = pre->next;
-            pre->next = current;
-            current = next;
+            
+            ListNode *t = head->next; // not *t = head
+            head->next = pre->next;
+            pre->next = head;
+            head = t; // not head = t->next;
         }
-        return helper.next;
+        return dummy.next;
     }
 };
