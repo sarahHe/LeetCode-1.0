@@ -5,21 +5,19 @@
 
 class Solution {
 public:
-    double pow(double x, int n) {
-        double res = 1.0;
-        
+    double myPow(double x, int n) {
+        double res = 1.0; //double
         if (n < 0) {
             if (n == INT_MIN)
-                return 1.0/(pow(x, INT_MAX) * x);
+                return 1.0 / (myPow(x, INT_MAX) * x); // case!
             else
-                return 1.0/pow(x, -n);
-        }
-        else if (n > 0) {
+                return 1.0 / myPow(x, -n);
+        } else if (n > 0) {
             while (n) {
-                if (n % 2 != 0) 
+                if (n % 2 == 1) 
                     res *= x;
-                
-                x *= x;
+                    
+                x *= x;//x *= x rather than res *= res
                 n /= 2;
             }
         }
