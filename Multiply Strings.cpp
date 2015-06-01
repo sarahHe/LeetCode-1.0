@@ -35,3 +35,30 @@ public:
         return res;
     }
 };
+
+
+
+
+2015.5.31 update
+class Solution {
+public:
+    string multiply(string num1, string num2) {
+        string res(num1.length() + num2.length(), '0');
+        for (int i = num1.length() - 1; i >= 0; i--) {
+            int carry = 0;
+            for (int j = num2.length() - 1; j >= 0; j--) {
+                int tmp = (res[i + j + 1] - '0') + (num1[i] - '0') * (num2[j] - '0') + carry; // [i+j+1]
+                res[i+j+1] = tmp % 10 + '0';
+                carry = tmp / 10;
+            }
+            res[i] += carry; //!!
+        }
+        
+        int i = 0;
+        while (i < res.length() && res[i] == '0')
+            i++;
+        if (i == res.length())
+            return "0";
+        return res.substr(i);
+    }
+};
