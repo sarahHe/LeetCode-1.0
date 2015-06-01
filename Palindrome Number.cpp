@@ -22,3 +22,20 @@ public:
         return true;
     }
 };
+
+
+
+2015.5.31 update
+class Solution {
+public:
+    bool isPalindrome(int x) {
+        if (x < 0)  return false;
+
+        int res = 0;
+        while (x > res) {
+            res = res * 10 + x % 10;
+            x /= 10;
+        }
+        return res == x || x == res / 10; // can't use res == x * 10;
+    }
+};
