@@ -13,57 +13,15 @@ How many possible unique paths are there?
 然后扫过来依次更替掉上一行对应列的信息即可（因为所需要用到的信息都还没被更替掉），
 所以空间复杂度是O(n)
 */
-public int uniquePaths(int m, int n) {  
-    if(m<=0 || n<=0)  
-        return 0;  
-    int[] res = new int[n];  
-    res[0] = 1;  
-    for(int i=0;i<m;i++)  
-    {  
-        for(int j=1;j<n;j++)  
-        {  
-           res[j] += res[j-1];  
-        }  
-    }  
-    return res[n-1];  
-}
-
-2015.2.16
 class Solution {
 public:
     int uniquePaths(int m, int n) {
-        vector<int> dp(n+1, 1);
-        dp[0] = 0; 
-        for (int i = 1; i < m; i++) {
-            for (int j = 1; j <= n; j++) {
-                dp[j] = dp[j] + dp[j-1];
-            }
+        vector<int> dp(n+1, 0);
+        dp[1] = 1;
+        for (int i = 0; i < m; i++) {
+            for (int j = 1; j <= n; j++) 
+                dp[j] += dp[j-1];
         }
         return dp.back();
-    }
-};
-
-方法二：
-class Solution {
-public:
-    void findPath(vector<vector<int> > &v, int m, int n) {
-        if (m == 0 || n == 0)
-            return;
-        if (v[m][n-1] == -1)
-            findPath(v, m, n-1);
-        if (v[m-1][n] == -1)
-            findPath(v, m-1, n);
-        v[m][n] = v[m][n-1] + v[m-1][n];
-    }
-
-    int uniquePaths(int m, int n) {
-        vector<vector<int> > v(m, vector<int>(n, -1));
-        for (int i = 0; i < n; i++)
-            v[0][i] = 1;
-        for (int i = 0; i < m; i++)
-            v[i][0] = 1;
-        
-        findPath(v, m-1, n-1);
-        return v[m-1][n-1];
     }
 };
