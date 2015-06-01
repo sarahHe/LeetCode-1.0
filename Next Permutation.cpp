@@ -37,3 +37,24 @@ public:
         }
     }
 };
+
+
+
+2015.6.1 update
+class Solution {
+public:
+// Reverse find first number which breaks descending order.
+// Exchange this number with the least number that's greater than this number.
+// Reverse sort the numbers after the exchanged number.
+    void nextPermutation(vector<int>& nums) {
+        int i = nums.size() - 2;
+        while (i >= 0 && nums[i+1] <= nums[i])    i--; // <=
+        
+        int j = nums.size() - 1;
+        if (i >= 0) {
+            while (j > 0 && nums[j] <= nums[i]) j--; //<=
+            swap(nums[i], nums[j]);
+        }
+        reverse(nums.begin() + i + 1, nums.end());
+    }
+};
