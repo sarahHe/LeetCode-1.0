@@ -37,3 +37,25 @@ public:
         return res;
     }
 };
+
+
+
+2015.6.4 update
+class Solution {
+public:
+    int longestConsecutive(vector<int>& nums) {
+        unordered_map<int, int> mp;
+        int len = 0;
+        for (int i : nums) {
+            if (mp[i])    continue;
+            
+            int left = mp[i-1], right = mp[i+1],
+                sum = left + right + 1;
+            len = max(len, sum);
+            mp[i] = sum;
+            mp[i-left] = sum;
+            mp[i+right] = sum;
+        }
+        return len;
+    }
+};
