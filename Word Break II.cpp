@@ -7,8 +7,8 @@ public:
         }
         
         for (int i = pos; i < s.length(); ++i) {
-            string substr = s.substr(pos, i-pos+1);
-            if (dp[i+1] && dict.count(substr) > 0) 
+            string substr = s.substr(pos, i-pos+1); // substr starts from pos
+            if (dp[i+1] && dict.count(substr) > 0)  // check dp[i+1] not dp[i]
                 breakWord(res, s, dict, str + substr + " ", i+1, dp);
         }
     }
