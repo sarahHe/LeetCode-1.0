@@ -9,57 +9,24 @@ You may assume no duplicate exists in the array.
 
 class Solution {
 public:
-    int search(int A[], int n, int target) {
-        int i = 0, j = n - 1;
-        while (i <= j) {///////注意这里的边界
-            int mid = i + (j-i)/2;
-            if (A[mid] > target) {
-                if (A[i] > target) 
-                    i = i + 1;// 不能简单地只用i = mid + 1. 如果target是最小的那个数，就会找不到了
-                else if (A[i] < target)
-                    j = mid - 1;
-                else
-                    return i;
-            }
-            else if (A[mid] < target) {
-                if (A[j] > target) {
-                    i = mid + 1;
-                    j = j - 1;
-                }
-                else if (A[j] < target)
-                    j = j - 1;
-                else
-                    return j;
-            }
-            else
+    int search(vector<int>& nums, int target) {
+        int low = 0, high = nums.size() - 1;
+        while (low <= high) { // <=
+            int mid = low + (high - low) / 2;
+            if (nums[mid] == target)
                 return mid;
                 
-        }
-        return -1;
-    }
-};
-
-
-2015.2.18
-class Solution {
-public:
-    int search(int A[], int n, int target) {
-        int i = 0, j = n - 1;
-        while (i <= j) {
-            int mid = (j - i)/2 + i;
-            if (A[mid] == target)   return mid;
-            
-            if (A[mid] >= A[i]) { // equation is important
-                if (A[i] <= target && target < A[mid])
-                    j = mid - 1;
+            if (nums[mid] >= nums[low]) { // >= is important
+                if (nums[low] <= target && target < nums[mid]) // nums[low] <= target
+                    high = mid - 1;
                 else
-                    i = mid + 1;
+                    low = mid + 1;
             }
             else {
-               if (A[mid] < target && target <= A[j])
-                    i = mid + 1;
+                if (nums[mid] < target && target <= nums[high]) //target <= nums[high]
+                    low = mid + 1;
                 else
-                    j = mid - 1; 
+                    high = mid - 1;
             }
         }
         return -1;
