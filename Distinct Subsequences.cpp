@@ -25,3 +25,26 @@ public:
         return dp.back();
     }
 };
+
+
+
+2015.6.21 update
+class Solution {
+// Path[i][j] = Path[i][j-1]            (discard S[j])
+//              +     Path[i-1][j-1]    (S[j] == T[i] and we are going to use S[j])
+//                 or 0                 (S[j] != T[i] so we could not use S[j])
+// while Path[0][j] = 1 and Path[i][0] = 0.
+public:
+    int numDistinct(string s, string t) {
+        if (s.length() < t.length())    return 0;
+        
+        vector<int> dp(t.length() + 1, 0);
+        dp[0] = 1;
+        for (int i = 1; i <= s.length(); i++) {// <=
+            // traversing backwards so we are using dp[j-1] from last time step
+            for (int j = t.length(); j >= 1; j--)
+                dp[j] += s[i-1] == t[j-1] ? dp[j - 1] : 0;
+        }
+        return dp.back();
+    }
+};
