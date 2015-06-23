@@ -33,3 +33,35 @@ public:
     }
 
 };
+
+
+2015.6.23 update
+//no big change
+class Solution {
+public:
+    int maximumGap(vector<int>& nums) {
+        if (nums.size() < 2)    return 0;
+        int mins = nums[0], maxs = nums[0];
+        for (auto i : nums) {
+            mins = min(mins, i);
+            maxs = max(maxs, i);
+        }
+        int gap = ceil((double)(maxs - mins) / (nums.size() - 1)); // must use ceil((double).....)
+        vector<int> bucketMin(nums.size() - 1, INT_MAX),
+                    bucketMax(nums.size() - 1, INT_MIN);
+        for (auto i : nums) {
+            if (i == mins || i == maxs) continue;
+            int idx = (i - mins) / gap;
+            bucketMin[idx] = min(i, bucketMin[idx]);
+            bucketMax[idx] = max(i, bucketMax[idx]);
+        }
+        int maxGap = INT_MIN, previous = mins;
+        for (int i = 0; i < nums.size() - 1; i++) { // loop over the bucketMin/bucketMax
+            if (bucketMin[i] == INT_MAX && bucketMax[i] == INT_MIN)   continue; //empty bucket
+            maxGap = max(maxGap, bucketMin[i] - previous);
+            previous = bucketMax[i];
+        }
+        maxGap = max(maxGap, maxs - previous); // updata the final max value gap
+        return maxGap;
+    }
+};
