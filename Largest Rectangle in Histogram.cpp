@@ -17,7 +17,7 @@ public:
             while (!s.empty() && height[i] < height[s.top()]) {
                 int cur = s.top();
                 s.pop();
-                int width = s.empty() ? i : i - s.top() - 1;
+                int width = s.empty() ? i : i - s.top() - 1;// can't use i - cur here
                 area = max(area, width * height[cur]);
             }
             s.push(i);
