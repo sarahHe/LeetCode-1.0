@@ -46,8 +46,8 @@ string longestPalindrome(string s) {
     bool dp[1000][1000] = {false};
     int start = 0, len = 1;
     for (int i = s.length() - 2; i >= 0; --i) {
-        for (int j = i + 1; j < s.length(); ++j) {
-            if (s[i] == s[j] && (i + 1 == j - 1 || i + 1 == j || dp[i+1][j-1])) {
+        for (int j = i + 1; j < s.length(); ++j) {//compare starts from two ends.
+            if (s[i] == s[j] && (i + 1 == j - 1 || i + 1 == j || dp[i+1][j-1])) { // i+1==j-1 for even length, i+1==j for odd length
                 dp[i][j] = true;
                 if (j - i + 1 > len) {
                     len = j - i + 1;
@@ -66,7 +66,7 @@ string longestPalindrome(string s) {
     if (s.empty()) return "";
     if (s.size() == 1) return s;
     int min_start = 0, max_len = 1;
-    for (int i = 0; i < s.size();) {
+    for (int i = 0; i < s.size();) {//increase i later
         if (s.size() - i <= max_len / 2) break;
         int j = i, k = i;
         while (k < s.size()-1 && s[k+1] == s[k])
