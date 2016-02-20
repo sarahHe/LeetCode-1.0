@@ -16,21 +16,19 @@ public:
                 
             int low = i+1, high = num.size()-1;
             while (low < high) {
-                if (num[i] + num[low] + num[high] == 0) {
-                    vector<int> tmp = {num[i], num[low], num[high]};
+                if (nums[low] + nums[high] + nums[i] == 0) {
+                    vector<int> tmp = {nums[i], nums[low], nums[high]};
                     res.push_back(tmp);
+                    while (low < high && nums[low] == nums[low+1]) 
                     low++;
-                    high--;
+                    while (low < high && nums[high] == nums[high-1])
+                        high--;
+                    high--; low++;
                 }
-                else if (num[i] + num[low] + num[high] < 0)
-                    low++;
-                else
+                else if (nums[low] + nums[high] + nums[i] > 0)
                     high--;
-                //the following part should come after the section above
-                while (low > i+1 && num[low] == num[low-1])
+                else 
                     low++;
-                while (high < num.size()-1 && num[high] == num[high+1])
-                    high--;
             }
         }
     }
