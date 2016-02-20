@@ -5,9 +5,9 @@ public:
             res.push_back(tmp);
             
         if (left < n)
-            generator(left+1, right, n, tmp+"(", res);
+            generator(left+1, right, n, tmp+"(", res); // order doesn't matter
         if (right < left)
-            generator(left, right+1, n, tmp+")", res);
+            generator(left, right+1, n, tmp+")", res); // order doesn't matter
     }
 
     vector<string> generateParenthesis(int n) {
