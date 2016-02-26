@@ -8,30 +8,28 @@
 
 class Solution {
 public:
-    bool isMatch(const char *s, const char *p) {
-        const char *start = NULL;
-        const char *ss = s;
-        while (*s) {
-            if (*p == '?' || *s == *p) {
-                s++; p++;
+    bool isMatch(string s, string p) {
+        int i = 0, j = 0, match = 0, star = -1;
+        while (i < s.length()) {
+            if (j < p.length() && p[j] == '*') {
+                star = j++;
+                match = i;
                 continue;
             }
-            if (*p == '*') {
-                start = p;
-                ss = s;
-                p++;
+            if (j < p.length() && (s[i] == p[j] || p[j] == '?')) {
+                i++;
+                j++;
                 continue;
             }
-            if (start) {
-                p = start + 1;
-                s = ss + 1;
-                ss++;  // important
+            if (star >= 0) {
+                i = ++match;
+                j = star + 1;
                 continue;
             }
             return false;
         }
-        while (*p == '*')
-            p++;
-        return *p == '\0';
+        while (j < p.length() && p[j] == '*')
+            j++;
+        return j == p.length();
     }
 };
