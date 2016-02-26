@@ -13,7 +13,7 @@ public:
         while (i < s.length()) {
             if (j < p.length() && p[j] == '*') {
                 star = j++;
-                match = i;
+                match = i; // i don't advance is for case * match empty space
                 continue;
             }
             if (j < p.length() && (s[i] == p[j] || p[j] == '?')) {
@@ -21,7 +21,7 @@ public:
                 j++;
                 continue;
             }
-            if (star >= 0) {
+            if (star >= 0) { //stop match for * until s[i] == p[j] || p[j] == '?'
                 i = ++match;
                 j = star + 1;
                 continue;
