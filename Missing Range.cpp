@@ -8,13 +8,13 @@ string get_range(int a, int b) {
 
 vector<string> findMissingRanges(vector<int> vals, int start, int end) {
     vector<string> res;
-    int pre = start - 1;
+    int pre = start - 1; //pre and cur denotes something like nums[i-1] and nums[i]
     for (int i = 0; i <= nums.size(); i++) {
         int cur = (i == nums.size()) ? end+1 : nums[i];
-        if (cur - pre > 2) {
+        if (cur - pre >= 2) {
             res.push_back(get_range(pre+1, cur-1));
-            pre = cur;
         }
+        pre = cur;
     }
     return res;
 }
