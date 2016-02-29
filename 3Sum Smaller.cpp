@@ -17,6 +17,7 @@ int threeSumSmaller(vector<int>& nums, int target) {
             if (nums[i] + nums[j] + nums[k] >= target)
                 k--;
             else {
+                // k-j 个组合都小于target
                 res += k - j;
                 j++;
             }
