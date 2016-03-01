@@ -1,10 +1,12 @@
-int longestConsecutive(TreeNode *root) {
-	return longestHelper(root);
+int longestHelper(TreeNode *node, int parentVal, int len) {
+	if (!node)	return	len;
+
+	len = parentVal + 1 == node->val ? len + 1 : 1;
+	int left = longestHelper(node->left, node->val, len);
+	int right = longestHelper(node->right, node->val, len);
+	return max(len, max(left, right));
 }
 
-int longestHelper(TreeNode *parent, *TreeNode *child, int len) {
-	if (!child)	return len;
-
-	len = (parent->val + 1 == child->val) ? len + 1 : 1;
-	return max(len, max(longestHelper(child, child->left, len), longestHelper(child, child->right, len)));
+int longestConsecutive(TreeNode *root) {
+	return longestHelper(root, root->val, 0);
 }
