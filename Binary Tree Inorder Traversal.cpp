@@ -63,3 +63,23 @@ public:
         return res;
     }
 };
+
+
+
+//2016.3.6
+vector<int> inorderTraversal(TreeNode* root) {
+    vector<int> res;
+    stack<TreeNode*> s;
+    while (root || !s.empty()) {
+        while (root) {
+            s.push(root);
+            root = root->left;
+        }
+        
+        TreeNode *node = s.top();
+        res.push_back(node->val);
+        s.pop();
+        root = node->right;
+    }
+    return res;
+}
