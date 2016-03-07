@@ -28,3 +28,24 @@ public:
         return res;
     }
 };
+
+
+
+//2016.3.6 
+vector<int> preorderTraversal(TreeNode* root) {
+    stack<TreeNode*> s;
+    vector<int> res;
+    
+    while (root || !s.empty()) {
+        while (root) {
+            s.push(root);
+            res.push_back(root->val);
+            root = root->left;
+        }
+        
+        TreeNode *node = s.top();
+        s.pop();
+        root = node->right;
+    }
+    return res;
+}
